@@ -1,9 +1,10 @@
 require '02Module.functions'
-require '01Class.flight'
-require '01Class.craft'
-require '01Class.port'
+require '01Class.Flight'
+--require '01Class.Craft'
+--require '01Class.Port'
 
---require 'mobdebug'.off()
+require 'mobdebug'.off()
 getData()
---require 'mobdebug'.on()
+require 'mobdebug'.on()
 
+print()

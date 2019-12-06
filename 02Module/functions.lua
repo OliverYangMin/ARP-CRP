@@ -17,23 +17,17 @@ end
 
 function getData()
     flights = {}
+    inbound_disrupted, outbound_disrupted = 0, 0
     local data = read_csv('00Data/flights_info.csv')
     for i=1,#data do
         if data[i][3] > 24 and data[i][3] < 27 then
-            flights[#flights+1] = {id=i, date = data[i][3] - 24, port1 = data[i][4], port2 = data[i][5], time1 = data[i][6] - 1440 * 24, time2 = data[i][7] - 1440 * 24,  old = data[i][9], tp = data[i][10], pass = data[i][11], revenue = data[i][12], water = data[i][13], atp = {data[i][14], data[i][15], data[i][16], data[i][17], data[i][18]}}
+            flights[#flights+1] = Flight:new(i, data[i])
         end 
     end 
-
+    
     crafts = {}
     data = read_csv('00Data/aircrafts_info.csv')
-    for i=1,#data do
-        crafts[data[i][1]] = {id = data[i][1], tp = data[i][2], seat = data[i][3], rest = data[i][4], water = data[i][7]}
-        if data[i][5] ~= 0 then
-            crafts.fix = {data[i][5], data[i][6]}
-        end 
-        -- base = {}, start, 
-    end 
-    crafts[54] = {id = 54, tp = 4, seat = 301, rest = 2, water = 1}
+    for i=1,#data do crafts[data[i][1]] = Craft:new(data[i]) end 
 
     ports = {}
     data = read_csv('00Data/airports_info.csv')
@@ -42,36 +36,7 @@ function getData()
         for j=2,6 do
             table.insert(ports[data[i][1]], data[i][j]) 
         end 
-    end 
-    
-    rotations = {}
-    for c,craft in ipairs(crafts) do
-        local rotation = {}
-        for f,flight in ipairs(flights) do
-            if flight.old == c then
-                table.insert(rotation,flight)
-            end 
-        end 
-        local base = {}
-        if #rotation > 0 then 
-            craft.start = rotation[1].port1
-            local i = 1
-            for j=1,#rotation do
-                if rotation[j].date == i then
-                    base[i] = rotation[j].port2
-                else
-                    i = i + 1
-                end 
-            end 
-        else
-            craft.start = 'ZUUU'
-            for i=1,7 do
-                base[i] = 'ZUUU'
-            end 
-        end 
-        craft.base = base
-        rotations[c] = rotation
-    end 
+    end
 end 
 
 function calculateCost()
