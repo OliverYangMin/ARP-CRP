@@ -15,3 +15,15 @@ function Flight:new(id, row)
     setmetatable(self, Flight)
     return self
 end     
+
+function Flight:isDelayFeasible(delay)
+    return delay <= 1440 and ports[self.port1]:isTimeFeasible(self.time1 + delay) and ports[self.port2]:isTimeFeasible(self.time2 + delay)
+end 
+
+function Flight:getDelayCost(delay)
+    
+end 
+
+function Flight:getCraftSwapCost(craft_id)
+
+end 

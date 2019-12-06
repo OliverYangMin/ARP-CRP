@@ -15,6 +15,25 @@ local function read_csv(filename, ihead)
 	return matrix
 end
 
+function DeepCopy(object)      
+    local SearchTable = {}  
+
+    local function Func(object)  
+        if type(object) ~= "table" then  
+            return object         
+        end  
+        local NewTable = {}  
+        SearchTable[object] = NewTable  
+        for k, v in pairs(object) do  
+            NewTable[Func(k)] = Func(v)  
+        end     
+
+        return setmetatable(NewTable, getmetatable(object))      
+    end    
+
+    return Func(object)  
+end 
+
 function getData()
     flights = {}
     inbound_disrupted, outbound_disrupted = 0, 0
@@ -32,10 +51,7 @@ function getData()
     ports = {}
     data = read_csv('00Data/airports_info.csv')
     for i=1,#data do
-        ports[data[i][1]] = {tw = data[i][6] ~= 0 and {data[i][6], data[i][7]}}
-        for j=2,6 do
-            table.insert(ports[data[i][1]], data[i][j]) 
-        end 
+        ports[data[i][1]] = Port:new(data[i]) 
     end
 end 
 
