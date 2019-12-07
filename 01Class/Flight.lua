@@ -21,9 +21,37 @@ function Flight:isDelayFeasible(delay)
 end 
 
 function Flight:getDelayCost(delay)
-    
+    local function passDelayCoeff(delay)
+        if delay > 0 then
+            local box = {0, 60, 120, 240, 720, 1440}
+            local coeff = {1, 1.5, 2, 3, 5}
+            for i=2,#box do   
+                if delay > box[i-1] and delay <= box[i] then
+                    return coeff[i-1]
+                end 
+            end 
+            error('This flight should be canceled')
+        end 
+        return 0
+    end 
+    local cost = 0
+    if delay > 0 then
+        cost = cost + PENALTY[2] + PENALTY[5] * delay + passDelayCoeff(delay) * self.pass
+    end 
 end 
 
 function Flight:getCraftSwapCost(craft_id)
-
+    local cost = 0
+    local type_type = {{0,1,2,3,5},
+        {1,0,1.5,2.5,4},
+        {2,1.5,0,2,3.5},
+        {3,2.5,2,0,2},
+        {5,4,3.5,2,0}}
+    if self.id ~= craft_id then
+        if self.tp ~= crafts[craft_id].tp then
+            cost = cost + PENALTY[4] * type_type[crafts[craft_id].tp][self.tp]
+        end 
+        cost = cost + PENALTY[6] * math.max(0, self.pass - crafts[craft_id].seat)
+    end 
+    return cost 
 end 

@@ -8,28 +8,22 @@ function Label:new(craft_id)
 end     
 
 function Label:extendNode(node1, node2)
-    --from the start airport to base airport?
     local flight1, flight2 = flights[node1.id], flights[node2.id]
     local tag, turnaround_time = self:copy(), ports[flight1.port2][self.tp]
-    if flight2.id == -1 then  --如果flight2不是终点
+    if flight2.id == -1 then  --if flight2 not terminal
         tag.delay = math.max(0, flight1.time2 + label.delay + turnaround_time - flight2.time1)            
-        --这个delay是当前航班的delay，之前航班的delay成本已经计算进去了
         if not flight2:isDelayFeasible(tag.delay) then return end 
-        -- delay cost & aircraft type,seat change cost
-        tag.cost = tag.cost + flight2:getDelayCost(tag.delay) + flight2:getCraftSwapCost(self.cid) +  -- - flight2.dual     
+        tag.cost = tag.cost + flight2:getDelayCost(tag.delay) + flight2:getCraftSwapCost(self.cid) - flight2.dual     
         if flight1.date < flight2.date and flight1.port2 ~= crafts[self.cid].base[flight1.date] then
-            tag.cost = tag.cost + 2000
+            tag.cost = tag.cost + PENALTY[3]
         end 
     end 
-    
-    tag:append(node2.id)
-    
+    tag[#tag+1] = node2.id
     for _,label in ipairs(node2.labels) do
         if label:isDominate(tag) then 
             return 
         end 
     end 
-    
     self:dominateLabelSet(node2.labels)
     table.insert(node2.labels, tag)
 end 
@@ -63,15 +57,3 @@ end
 function Label:copy()
     return DeepCopy(self)
 end
-
-function Label:append(node)
-    self[#self+1] = node
-end 
-
---function Label:to_column()
---    local column = Route:new(self.cost)
---    for i=2,#label-1 do 
---        column[#column+1] = self[i]
---    end
---    return column
---end 

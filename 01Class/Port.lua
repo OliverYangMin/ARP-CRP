@@ -2,9 +2,9 @@ Port = {}
 Port.__index = Port
 
 function Port:new(row)
-    local self = {tw = row[6] ~= 0 and {row[6], row[7]}}
-    for j=2,6 do
-        table.insert(ports[row[1]], row[j]) 
+    local self = {tw = row[7] ~= 0 and {row[7], row[8]}}
+    for i=2,6 do
+        self[i-1] = row[i] 
     end 
     setmetatable(self, Port)
     return self

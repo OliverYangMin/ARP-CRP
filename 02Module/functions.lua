@@ -15,6 +15,24 @@ local function read_csv(filename, ihead)
 	return matrix
 end
 
+function getData()
+    flights = {}
+    inbound_disrupted, outbound_disrupted = 0, 0
+    local data = read_csv('00Data/flights_info.csv')
+    for i=1,#data do
+        if data[i][3] > 24 and data[i][3] < 25 + DAYS  then
+            flights[#flights+1] = Flight:new(i, data[i])
+        end 
+    end 
+    crafts = {}
+    data = read_csv('00Data/aircrafts_info.csv')
+    for i=1,#data do crafts[data[i][1]] = Craft:new(data[i]) end 
+    ports = {}
+    data = read_csv('00Data/airports_info.csv')
+    for i=1,#data do ports[data[i][1]] = Port:new(data[i]) end
+end 
+
+
 function DeepCopy(object)      
     local SearchTable = {}  
 
@@ -32,27 +50,6 @@ function DeepCopy(object)
     end    
 
     return Func(object)  
-end 
-
-function getData()
-    flights = {}
-    inbound_disrupted, outbound_disrupted = 0, 0
-    local data = read_csv('00Data/flights_info.csv')
-    for i=1,#data do
-        if data[i][3] > 24 and data[i][3] < 27 then
-            flights[#flights+1] = Flight:new(i, data[i])
-        end 
-    end 
-    
-    crafts = {}
-    data = read_csv('00Data/aircrafts_info.csv')
-    for i=1,#data do crafts[data[i][1]] = Craft:new(data[i]) end 
-
-    ports = {}
-    data = read_csv('00Data/airports_info.csv')
-    for i=1,#data do
-        ports[data[i][1]] = Port:new(data[i]) 
-    end
 end 
 
 function calculateCost()
@@ -88,7 +85,7 @@ function calculateCost()
     end 
     
     for c,craft in ipairs(crafts) do
-        for i=1,7 do
+        for i=1,DAYS do
             if craft.base[i] ~= craft.new_base[i] then
                 cost = cost + P[3]
             end 

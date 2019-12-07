@@ -1,7 +1,7 @@
 Master = {}
 Master.__index = Master
 
-function Master:new() -- input columns
+function Master:new()
     local self = {lp = CreateLP(), obj = {}, solution = {}}
     setmetatable(self, Master)
     return self
@@ -52,6 +52,15 @@ function Master:AddConstraint()
         resetCoeff()
     end 
     
+    for t=13*60,20*60,10 do
+        for i=1,#columns do
+            coeff[i] = slot_used(columns[i], t)
+            changed[#changed+1] = i
+        end 
+        AddConstraint(self.lp, coeff, '<=', slot_capacity(t))
+        resetCoeff()
+    end 
+    
     for d=1,7 do
         for i=1,#columns do
             coeff[#flights + i] = columns[i].cut
@@ -75,7 +84,6 @@ function Master:WriteLP()
     self:SetObjFunction()
     self:AddConstraint()
 end 
-
 
 function Master:cplexSolve()
     WriteLP(self.lp, self.name .. '.mps')
