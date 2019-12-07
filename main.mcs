@@ -4,6 +4,7 @@ require '01Class.Flight'
 require '01Class.Port'
 require '01Class.Master'
 require '01Class.Label'
+
 Craft = {}
 Craft.__index = Craft
 
@@ -73,7 +74,7 @@ function Craft:addEdgesAdjIndegree()
     for i,node1 in ipairs(self.nodes) do
 --        edges[#edges+1] = {0, i}
         local flight1 = flights[node1.id]
-        local turnaround_time = ports[flight1.port2]
+        local turnaround_time = ports[flight1.port2][self.tp]
 --        if self.start == flight1.port1 then
 --            table.insert(self.nodes[0], i)
 --            node2.indegree = node2.indegree + 1
@@ -105,29 +106,41 @@ end
 
 function Craft:topoSort(edges)
     local minpq = require '03Algorithms.data.minpq'
-    local pqueue = minpq.create(function(a, b) return #a.adj - #b.adj end)
+    local pqueue = minpq.create(function(a, b) return #self.nodes[a].adj - #self.nodes[b].adj end)
     for i=1,#self.nodes do
         if self.nodes[i].indegree == 0 then
-            minpq.enqueue(i)
+            pqueue:enqueue(i)
         end
     end 
-    local result = {[0] = self.nodes[0]}
-    while not minpq:isEmpty() do
-        local node = minpq:delMin()
-        result[#result+1] = self.nodes[node]
+    local result = {[0] = 0}
+    while not pqueue:isEmpty() do
+        local node = pqueue:delMin()
+        result[#result+1] = node
         for i=1,#edges[node] do
             self.nodes[edges[node][i]].indegree = self.nodes[edges[node][i]].indegree - 1
             if self.nodes[edges[node][i]].indegree == 0 then
-                minpq.enqueue(edges[node][i])
+                pqueue:enqueue(edges[node][i])
             end 
         end
     end 
     if #result == #self.nodes then
-        self.nodes = result
+        self.order = result
     else
         error('This is a cycle of craft ' .. self.id)
     end
 end 
+
+function Craft:generateRoute()
+    for i=0,#self.order do
+        local node = self.nodes[self.order[i]]
+        for _,label in ipairs(node.labels) do
+            for _,node_id in ipairs(node.adj) do 
+                label:extendNode(node, self.nodes[node_id])  
+            end 
+        end
+    end
+    --self:convertLabels2Routes()
+end  
 
 require 'mobdebug'.off()
 
