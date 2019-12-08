@@ -12,13 +12,3 @@
 --    for i=1,#self.fit_flights do self.fit_flights[i].labels = {} end
 --end 
 
---function Craft:generateRoute()
---    for i,node1 in ipairs(self.fit_flights) do
---        for _,label in ipairs(node1.labels) do
---            for _,node_id in ipairs(node1.adj) do 
---                label:extendNode(node1, self.fit_flights[node_id])  
---            end 
---        end
---    end
---    self:convertLabels2Routes()
---end  
