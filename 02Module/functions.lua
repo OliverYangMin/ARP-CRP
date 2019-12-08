@@ -17,11 +17,15 @@ end
 
 function getData()
     flights = {}
+    local delayed_flights = {}
     inbound_disrupted, outbound_disrupted = 0, 0
     local data = read_csv('00Data/flights_info.csv')
     for i=1,#data do
         if data[i][3] > 24 and data[i][3] < 25 + DAYS  then
             flights[#flights+1] = Flight:new(i, data[i])
+            if flights[#flights].dis then
+                
+            end 
         end 
     end 
     crafts = {}

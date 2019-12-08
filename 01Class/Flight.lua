@@ -5,11 +5,11 @@ function Flight:new(id, row)
     local self = {id = id, date = row[3] - 24, port1 = row[4], port2 = row[5], time1 = row[6] - 1440 * 24, time2 = row[7] - 1440 * 24,  old = row[9], tp = row[10], pass = row[11], revenue = row[12], water = row[13], atp = {row[14], row[15], row[16], row[17], row[18]}}
     if self.port1 == 'ZUUU' and self.time1 >= 60 * 13 and self.time1 < 60 * 20 then
         self.dis = true
-        self.time1, self.time2 = self.time1 + 60, self.time2 + 60
+        --self.time1, self.time2 = self.time1 + 60, self.time2 + 60
         outbound_disrupted = outbound_disrupted + 1
     elseif self.port2 == 'ZUUU' and self.time2 >= 60 * 13 and self.time2 < 60 * 20 then
         self.dis = true
-        self.time1, self.time2 = self.time1 + 60, self.time2 + 60
+        --self.time1, self.time2 = self.time1 + 60, self.time2 + 60
         inbound_disrupted = inbound_disrupted + 1
     end 
     setmetatable(self, Flight)
@@ -42,16 +42,20 @@ end
 
 function Flight:getCraftSwapCost(craft_id)
     local cost = 0
-    local type_type = {{0,1,2,3,5},
-        {1,0,1.5,2.5,4},
-        {2,1.5,0,2,3.5},
-        {3,2.5,2,0,2},
-        {5,4,3.5,2,0}}
+
     if self.id ~= craft_id then
         if self.tp ~= crafts[craft_id].tp then
-            cost = cost + PENALTY[4] * type_type[crafts[craft_id].tp][self.tp]
+            cost = cost + PENALTY[4] * TYPE_TYPE[crafts[craft_id].tp][self.tp]
         end 
         cost = cost + PENALTY[6] * math.max(0, self.pass - crafts[craft_id].seat)
     end 
     return cost 
 end 
+
+function Flight:generateDelaySet()
+    for i=10, 20 * 60,10 do
+        local flight = DeepCopy(self)
+        flight.time1, flight.time2 = flight.time1 + i, flight.time2 + i
+    end 
+end 
+

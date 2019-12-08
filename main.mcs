@@ -1,137 +1,19 @@
 require '02Module.functions'
 require '01Class.Flight'
---require '01Class.Craft'
+require '01Class.Craft'
 require '01Class.Port'
 require '01Class.Master'
 require '01Class.Label'
-Craft = {}
-Craft.__index = Craft
 
-function Craft:new(row)
-    local self = {id = row[1], tp = row[2], seat = row[3], rest = row[4], water = row[7]}
-    if row[5] ~= 0 then
-        self.fix = {row[5] - 1440 * 24, row[6] - 1440 * 24}
-    end 
-    setmetatable(self, Craft)
-    
-    local rotation = {}
-    for f,flight in ipairs(flights) do
-        if flight.old == c then 
-            table.insert(rotation, flight) 
-        end 
-    end 
-    local base = {}
-    if #rotation > 0 then 
-        self.start = rotation[1].port1
-        local i = 1
-        for j=1,#rotation do
-            if rotation[j].date == i then
-                base[i] = rotation[j].port2
-            else
-                i = i + 1
-            end 
-        end 
-    else
-        self.start = 'ZUUU'
-        for i=1,7 do
-            base[i] = 'ZUUU'
-        end 
-    end 
-    self.base = base
-    return self
-end     
-
-function Craft:isOperable(flight)
-    return flight.atp[self.tp] > 0 and flight.water <= self.water and (self.fix and (flight.time2 > self.fix[1] and flight.time2 <= self.fix[2]) or true) 
-end 
-
-function Craft:createGraph()
-    self.nodes = {}
-    for f,flight in ipairs(flights) do
-        if self:isOperable(flight) then
-            self.nodes[#self.nodes + 1] = {id = f, labels = {}, adj = {}, indegree = 0}
-        end 
-    end
-  
-    self.nodes[0] = {id = 0, lables = {{cost = 0, delay = 0}}, adj = {}}
-    local edges = self:addEdgesAdjIndegree()
-    self:topoSort(edges)
-    
-    -- may be deleted
-    table.insert(self.nodes, {id = -1, lables = {}, adj = {}, indegree = 0})
-    for i=1,#self.nodes-1 do
-        if flights[self.nodes[i].id].port2 == self.base[DAYS] then
-            table.insert(self.nodes[i].adj, #self.nodes)
-            self.nodes[#self.nodes].indegree = self.nodes[#self.nodes].indegree + 1
-        end 
-    end 
-end 
-
-function Craft:addEdgesAdjIndegree()
-    local edges = {}
-
-    for i,node1 in ipairs(self.nodes) do
---        edges[#edges+1] = {0, i}
-        local flight1 = flights[node1.id]
-        local turnaround_time = ports[flight1.port2]
---        if self.start == flight1.port1 then
---            table.insert(self.nodes[0], i)
---            node2.indegree = node2.indegree + 1
---        end 
-        edges[i] = {}
-        for j,node2 in ipairs(self.nodes) do
-            if i ~= j then
-                local flight2 = flights[node2.id]
-                if flight1.port2 == flight2.port1 and flight1.time1 + turnaround_time <= flight2.time1 then
-                    table.insert(edges[i], j)
-                    node1.adj[#node1.adj+1] = j
-                    node2.indegree = node2.indegree + 1
-                end 
-            end 
-        end
-    end 
-    
-    return edges
-end
-
-local function isIn(tab, value)
-    for i=1,#tab do
-        if tab[i].id == value then
-            return i
-        end 
-    end 
-    return false
-end 
-
-function Craft:topoSort(edges)
-    local minpq = require '03Algorithms.data.minpq'
-    local pqueue = minpq.create(function(a, b) return #a.adj - #b.adj end)
-    for i=1,#self.nodes do
-        if self.nodes[i].indegree == 0 then
-            minpq.enqueue(i)
-        end
-    end 
-    local result = {[0] = self.nodes[0]}
-    while not minpq:isEmpty() do
-        local node = minpq:delMin()
-        result[#result+1] = self.nodes[node]
-        for i=1,#edges[node] do
-            self.nodes[edges[node][i]].indegree = self.nodes[edges[node][i]].indegree - 1
-            if self.nodes[edges[node][i]].indegree == 0 then
-                minpq.enqueue(edges[node][i])
-            end 
-        end
-    end 
-    if #result == #self.nodes then
-        self.nodes = result
-    else
-        error('This is a cycle of craft ' .. self.id)
-    end
-end 
 
 require 'mobdebug'.off()
 
 PENALTY = {2000, 1300, 1800, 400, 25, 10, 1, 1, 1200, 800, 1200, 800, 300, 600, 400, 500, 800, 500}
+TYPE_TYPE = {{0,1,2,3,5},
+        {1,0,1.5,2.5,4},
+        {2,1.5,0,2,3.5},
+        {3,2.5,2,0,2},
+        {5,4,3.5,2,0}}
 DAYS = 1
 getData()
 columns = {}
