@@ -52,22 +52,40 @@ function Master:AddConstraint()
         resetCoeff()
     end 
     
-    for t=13*60,20*60,10 do
+    for t=13*60,15*60-10,10 do
         for i=1,#columns do
-            coeff[i] = slot_used(columns[i], t)
+            coeff[i] = slot_used(columns[i], 1)
             changed[#changed+1] = i
         end 
-        AddConstraint(self.lp, coeff, '<=', slot_capacity(t))
+        AddConstraint(self.lp, coeff, '<=', 1)
         resetCoeff()
     end 
     
-    for d=1,7 do
+    for t=15*60,17*60-10,10 do
         for i=1,#columns do
-            coeff[#flights + i] = columns[i].cut
-            changed[#changed+1] = #flights + i
+            coeff[i] = slot_used(columns[i], 2)
+            changed[#changed+1] = i
         end 
-        AddConstraint(master, coeff, '<=', math.floor(0.05 * dayFlights[d]))
+        AddConstraint(self.lp, coeff, '<=', 2)
         resetCoeff()
+    end 
+    
+    for t=17*60,20*60-10,10 do
+        for i=1,#columns do
+            coeff[i] = slot_used(columns[i], 3)
+            changed[#changed+1] = i
+        end 
+        AddConstraint(self.lp, coeff, '<=', 3)
+        resetCoeff()
+    end 
+
+    for d=1,1 do --1,7
+--        for i=1,#columns do
+--            coeff[#flights + i] = columns[i].cut
+--            changed[#changed+1] = #flights + i
+--        end 
+--        AddConstraint(master, coeff, '<=', math.floor(0.05 * dayFlights[d]))
+--        resetCoeff()
         
         for i=1,#flights do
             if flights[i].date == d then

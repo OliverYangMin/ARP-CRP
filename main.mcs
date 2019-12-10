@@ -4,9 +4,87 @@ require '01Class.Craft'
 require '01Class.Port'
 require '01Class.Master'
 require '01Class.Label'
+require '01Class.Column'
 
 
 require 'mobdebug'.off()
+Column = {}
+Column.__index = Column 
+
+function Column:new(craft, delay)
+    local self = {craft = craft, delay = delay or {}}
+    setmetatable(self, Column)
+    return self
+end 
+
+function passenger_delay_coeff(delay)
+    if delay <= 60 then
+        return 1
+    elseif delay <= 120 then
+        return 1.5
+    elseif delay <= 240 then
+        return 2
+    elseif delay <= 720 then
+        return 3
+    elseif delay <= 1440 then
+        return 5
+    else
+        error('This flight should be canceled')
+    end 
+end 
+
+function Column:getCost()
+    if not self.cost then 
+        local time = 0
+        self.cost = 0
+        local craft = crafts[self.craft]
+        for i=1,#self do
+            local flight = flights[self[i]]
+            local delay = math.max(0, time - flight.time1)
+            
+            ---航班延误：延误班次=2，延误时间=5，乘客延误时间=7
+            if delay > 0 then
+                self.cost = self.cost + PENALTY[2] + delay * PENALTY[5] + passenger_delay_coeff(delay) * math.min(flight.pass, craft.seat) * PENALTY[7]
+            end 
+            
+            ---换机:机型更换=4, 乘客减少=6
+            if self.craft ~= flight.old then
+                self.cost = self.cost + math.max(0, flight.pass - craft.seat) * PENALTY[6]
+                if craft.tp ~= flight.tp then
+                    self.cost = self.cost + PENALTY[4] * TYPE_TYPE[craft.atp][flight.atp] 
+                end
+            end 
+            
+            --- 联程=10
+    --        if flight.double then
+    --            if i == #self or flights[self[i+1]].id ~= flight.double then
+    --                cost = cost + PENALTY[10]
+    --            end 
+    --        end 
+            ---驻地=3
+    --        if flight.date < flights[self[i+1]].date then
+    --            if flight.port2 ~= craft.base[flight.date] then
+    --                cost = cost + PENALTY[3]
+    --            end 
+    --        end 
+            time = flight.time2 + ports[flight.port2][craft.tp]
+        end 
+
+        if #self > 0 then
+            if flights[self[#self]].port2 ~= craft.base[1] then
+                self.cost = self.cost + PENALTY[3]
+            end 
+        else
+            if craft.start ~= craft.base[1] then
+                self.cost = self.cost + PENALTY[3]
+            end 
+        end 
+    end 
+    return self.cost
+end 
+
+
+
 
 PENALTY = {2000, 1300, 1800, 400, 25, 10, 1, 1, 1200, 800, 1200, 800, 300, 600, 400, 500, 800, 500}
 TYPE_TYPE = {{0,1,2,3,5},
@@ -20,6 +98,30 @@ columns = {}
 require 'mobdebug'.on()
 
 
-crafts[1]:createGraph()
+--crafts[1]:createGraph()
+
+local dis_rotations = {}
+for i=1,#crafts do
+    local rotation = Column:new(i)
+    local dis 
+    for f,flight in ipairs(flights) do
+        if flight.old == i then
+            rotation[#rotation+1] = {fid = f, slot = 0}  
+            if flight.dis then
+                dis = true
+            end 
+        end 
+    end 
+    print(rotation:getCost())
+    if dis then dis_rotations[#dis_rotations+1] = rotation end 
+    if #rotation > 0 then columns[#columns+1] = rotation end 
+end 
+
+for i=1,#dis_rotations do
+    for j=1,#dis_rotations[i] do
+    
+    end 
+end 
+
 
 print()

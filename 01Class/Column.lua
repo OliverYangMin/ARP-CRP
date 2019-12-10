@@ -27,7 +27,7 @@ function Column:getCost()
     local cost, time = 0, 0
     local craft = crafts[self.craft]
     for i=1,#self do
-        local flight = flights[i]
+        local flight = flights[self[i].fid]
         local delay = math.max(0, time - flight.time1)
         
         ---航班延误：延误班次=2，延误时间=5，乘客延误时间=7
@@ -50,14 +50,24 @@ function Column:getCost()
 --            end 
 --        end 
         ---驻地=3
---        if flight.date < flights[self[i+1]].date then
+--        if flight.date < flights[self[i+1].fid].date then
 --            if flight.port2 ~= craft.base[flight.date] then
 --                cost = cost + PENALTY[3]
 --            end 
 --        end 
+        self[i].time = flight.time1 + delay
         time = flight.time2 + ports[flight.port2][self.tp]
     end 
-    if flights[self[#self]].port2 ~= crafts[self.craft].base[1] then
+    if flights[self[#self].fid].port2 ~= crafts[self.craft].base[1] then
         cost = cost + PENALTY[3]
     end 
+end 
+
+function Column:isInboundSlot(time)
+    for i=1,#self do
+        if flights[self[i].fid].port2 == 'ZUUU' and self[i].time >= time and self[i].time < time + 10 then
+            return true
+        end 
+    end 
+    return false
 end 

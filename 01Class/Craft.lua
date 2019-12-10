@@ -17,12 +17,12 @@ function Craft:new(row)
             if flight.dis and not start_dis then start_dis = f end 
         end 
     end 
-    columns[#columns+1] = rotation
-    for t=rotation[start_dis].time1+10,20 * 60,10 do
-        for i=start_dis,#rotation do
+--    columns[#columns+1] = rotation
+--    for t=rotation[start_dis].time1+10,20 * 60,10 do
+--        for i=start_dis,#rotation do
             
-        end 
-    end 
+--        end 
+--    end 
     
     local base = {}
     if #rotation > 0 then 

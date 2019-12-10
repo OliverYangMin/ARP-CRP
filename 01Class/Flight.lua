@@ -58,4 +58,3 @@ function Flight:generateDelaySet()
         flight.time1, flight.time2 = flight.time1 + i, flight.time2 + i
     end 
 end 
-
