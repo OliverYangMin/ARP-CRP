@@ -8,18 +8,18 @@ function Master:new()
 end 
 
 function Master:SetObjFunction()
-    for f,flight in ipairs(flights) do
+    for f,flight in ipairs(flights) do -- no double flight cancel: both cancel or single cancel
         self.obj[#self.obj+1] = P[1] + (P[6] - 1.5) * flights.pass
     end 
     ---the cost for every route has been found
     for i=1,#columns do
-        obj[#obj+1] = columns[i].cost
+        obj[#obj+1] = columns[i]:getCost()
     end 
     SetObjFunction(self.lp, obj, 'min')
 end 
 
 function Master:AddConstraint()
-   local coeff, changed = {}, {}
+    local coeff, changed = {}, {}
     for j=1,#self.obj do coeff[j] = 0 end 
     local function resetCoeff()
         for i=1,#changed do
@@ -40,7 +40,7 @@ function Master:AddConstraint()
         AddConstraint(self.lp, coeff, '=', 1)
         resetCoeff()
     end
-    
+    ---constraint 2 every flight been execute by only one route or be canceled
     for cid,craft in pairs(crafts) do
         for j=1,#columns do 
             if columns[j].craft == cid then 
@@ -54,7 +54,7 @@ function Master:AddConstraint()
     
     for t=13*60,15*60-10,10 do
         for i=1,#columns do
-            coeff[i] = slot_used(columns[i], 1)
+            coeff[i] = columns[i]:isInSlot(t)
             changed[#changed+1] = i
         end 
         AddConstraint(self.lp, coeff, '<=', 1)

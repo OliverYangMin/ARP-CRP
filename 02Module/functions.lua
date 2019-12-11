@@ -17,23 +17,51 @@ end
 
 function getData()
     flights = {}
-    local delayed_flights = {}
     inbound_disrupted, outbound_disrupted = 0, 0
     local data = read_csv('00Data/flights_info.csv')
     for i=1,#data do
-        if data[i][3] > 24 and data[i][3] < 25 + DAYS  then
+        if data[i][6] > 24 * 1440 + 13 * 60 and data[i][3] < 25 + DAYS  then
             flights[#flights+1] = Flight:new(i, data[i])
-            if flights[#flights].dis then
+            --if flights[#flights].dis then
                 
-            end 
+            --end 
         end 
     end 
+
     crafts = {}
     data = read_csv('00Data/aircrafts_info.csv')
     for i=1,#data do crafts[data[i][1]] = Craft:new(data[i]) end 
     ports = {}
     data = read_csv('00Data/airports_info.csv')
     for i=1,#data do ports[data[i][1]] = Port:new(data[i]) end
+    
+    mcrafts = {}
+    mflights = {}
+    for c,craft in pairs(crafts) do
+        local rotation = {}
+        for f,flight in ipairs(flights) do
+            if flight.old == c then
+                rotation[#rotation+1] = f
+                if flight.dis and not mcrafts[c] then
+                    mcrafts[c] = craft
+                end 
+            end 
+        end
+        
+        for j=1,#rotation-1 do
+            if flights[rotation[j]].hbh == flights[rotation[j+1]].hbh then
+                flights[rotation[j]].double = rotation[j+1]
+            end 
+        end 
+        
+        if mcrafts[c] then
+            for i=1,#rotation do
+                mflights[#mflights+1] = flights[rotation[i]]
+            end 
+        end     
+    end 
+    flights = mflights
+    crafts = mcrafts
 end 
 
 

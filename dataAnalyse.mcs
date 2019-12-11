@@ -1,0 +1,11 @@
+require '02Module.functions'
+require '01Class.Flight'
+require '01Class.Craft'
+require '01Class.Port'
+require 'mobdebug'.off()
+DAYS = 7
+getData()
+require 'mobdebug'.on()
+
+
+
