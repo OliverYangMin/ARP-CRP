@@ -12,8 +12,14 @@ require 'mobdebug'.off()
 
 DAYS = 1
 getData()
-columns = {}
+
+
+function initColumns()
+    
+end
+
 require 'mobdebug'.on()
+columns = initColumns()
 
 
 print()

@@ -2,8 +2,16 @@ Column = {}
 Column.__index = Column 
 
 function Column:new(craft, delay)
-    local self = {craft = craft, delay = delay or {}}
+    local self = {craft = craft, delay = delay}
     setmetatable(self, Column)
+    if not self.delay then
+        self.delay = {}
+        for i=1,#self do
+            self.delay[i] = 0
+        end 
+    end 
+    
+    self.isEnterDelay = false
     return self
 end 
 
@@ -39,8 +47,14 @@ function Column:isInclude(flight_id)
 end 
 
 function Column:isInboundSlot(time_slot)
+    local time = 0
     for i=1,#self
-        if 
+        local flight = flights[self[i]]
+        local delay = math.max(0, time + self.delay[i] - flight.time1) 
+        if flight.time2 + delay > time_slot and flight.time2 + delay <= time_slot + 10 then
+            return true
+        end 
+        time = flight.time2 + delay + ports[flight.port2][craft.tp]
     end 
     return false
 end 
