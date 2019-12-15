@@ -1,0 +1,84 @@
+
+Log started (V12.6.0.0) Sun Dec 15 15:19:15 2019
+
+
+Selected objective sense:  MINIMIZE
+Selected objective  name:  R0
+Selected RHS        name:  RHS
+
+Problem 'MasterProblem.mps' read.
+Read time = 0.00 sec. (0.07 ticks)
+Tried aggregator 1 time.
+LP Presolve eliminated 419 rows and 342 columns.
+All rows and columns eliminated.
+Presolve time = 0.00 sec. (0.10 ticks)
+
+Dual simplex - Optimal:  Objective = 1.0989965000e+006
+Solution time =    0.00 sec.  Iterations = 0 (0)
+Deterministic time = 0.20 ticks  (200.33 ticks/sec)
+
+
+Solution written to file 'MasterProblem_solution.sol'.
+
+Log started (V12.6.0.0) Sun Dec 15 15:19:58 2019
+
+
+Selected objective sense:  MINIMIZE
+Selected objective  name:  R0
+Selected RHS        name:  RHS
+
+Problem 'MasterProblem.mps' read.
+Read time = 0.00 sec. (0.07 ticks)
+Tried aggregator 1 time.
+LP Presolve eliminated 419 rows and 342 columns.
+All rows and columns eliminated.
+Presolve time = 0.00 sec. (0.10 ticks)
+
+Dual simplex - Optimal:  Objective = 1.0989965000e+006
+Solution time =    0.00 sec.  Iterations = 0 (0)
+Deterministic time = 0.20 ticks  (200.33 ticks/sec)
+
+
+Solution written to file 'MasterProblem_solution.sol'.
+
+Log started (V12.6.0.0) Sun Dec 15 15:20:17 2019
+
+
+Selected objective sense:  MINIMIZE
+Selected objective  name:  R0
+Selected RHS        name:  RHS
+
+Problem 'MasterProblem.mps' read.
+Read time = 0.00 sec. (0.07 ticks)
+Tried aggregator 1 time.
+LP Presolve eliminated 419 rows and 342 columns.
+All rows and columns eliminated.
+Presolve time = 0.00 sec. (0.10 ticks)
+
+Dual simplex - Optimal:  Objective = 1.0989965000e+006
+Solution time =    0.00 sec.  Iterations = 0 (0)
+Deterministic time = 0.20 ticks  (200.33 ticks/sec)
+
+
+Solution written to file 'MasterProblem_solution.sol'.
+
+Log started (V12.6.0.0) Sun Dec 15 15:20:40 2019
+
+
+Selected objective sense:  MINIMIZE
+Selected objective  name:  R0
+Selected RHS        name:  RHS
+
+Problem 'MasterProblem.mps' read.
+Read time = 0.00 sec. (0.07 ticks)
+Tried aggregator 1 time.
+LP Presolve eliminated 419 rows and 342 columns.
+All rows and columns eliminated.
+Presolve time = 0.00 sec. (0.10 ticks)
+
+Dual simplex - Optimal:  Objective = 1.0989965000e+006
+Solution time =    0.00 sec.  Iterations = 0 (0)
+Deterministic time = 0.20 ticks  (200.33 ticks/sec)
+
+
+Solution written to file 'MasterProblem_solution.sol'.

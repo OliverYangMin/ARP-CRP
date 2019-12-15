@@ -16,7 +16,9 @@ function Evaluator:new()
 end 
 
 function Evaluator:passenger_delay_coeff(delay)
-    if delay <= 60 then
+    if delay == 0 then
+        return 0
+    elseif delay <= 60 then
         return 1
     elseif delay <= 120 then
         return 1.5
@@ -29,6 +31,25 @@ function Evaluator:passenger_delay_coeff(delay)
     else
         error('This flight should be canceled')
     end 
+end 
+
+function Evaluator:getDelayCost(flight, delay)
+    local cost = 0
+    if delay > 0 then
+        cost = cost + PENALTY[2] + PENALTY[5] * delay + self:passenger_delay_coeff(delay) * flight.pass
+    end 
+    return cost
+end 
+
+function Evaluator:getCraftSwapCost(flight, craft)
+    local cost = 0
+    if flight.old ~= craft.id then
+        if flight.tp ~= craft.tp then
+            cost = cost + PENALTY[4] * TYPE_TYPE[craft.tp][flight.tp]
+        end 
+        cost = cost + PENALTY[6] * math.max(0, flight.pass - craft.seat)
+    end 
+    return cost 
 end 
 
 function Evaluator:getCost(column)
@@ -44,12 +65,7 @@ function Evaluator:getCost(column)
         end 
         
         ---换机:机型更换=4, 乘客减少=6
-        if column.craft ~= flight.old then
-            cost = cost + math.max(0, flight.pass - craft.seat) * PENALTY[6]
-            if craft.tp ~= flight.tp then
-                cost = cost + PENALTY[4] * TYPE_TYPE[craft.atp][flight.atp] 
-            end
-        end 
+        cost = cost + self:getCraftSwapCost(flight, craft)
         
         --- 联程=10
         if flight.double then
@@ -75,3 +91,17 @@ function Evaluator:getCost(column)
     end
     return cost
 end 
+
+--    local function passDelayCoeff(delay)
+--        if delay > 0 then
+--            local box = {0, 60, 120, 240, 720, 1440}
+--            local coeff = {1, 1.5, 2, 3, 5}
+--            for i=2,#box do   
+--                if delay > box[i-1] and delay <= box[i] then
+--                    return coeff[i-1]
+--                end 
+--            end 
+--            error('This flight should be canceled')
+--        end 
+--        return 0
+--    end 

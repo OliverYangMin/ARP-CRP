@@ -2,49 +2,82 @@ require '02Module.functions'
 require '01Class.Flight'
 require '01Class.Craft'
 require '01Class.Port'
---require '01Class.Master'
---require '01Class.Label'
---require '01Class.Column'
+require '01Class.Master'
+require '01Class.Label'
+require '01Class.Column'
+require '01Class.Evaluator'
 
 
+function Craft:generateRoute()
+    for i=1,#self.order do
+        local node = self.nodes[self.order[i]]
+        for _,label in ipairs(node.labels) do
+            for _,node_id in ipairs(node.adj) do 
+                label:extendNode(node.fid, self.nodes[node_id].fid)  
+            end 
+        end
+    end
+    local routes = {}
+    for _,node in ipairs(self.nodes) do
+        for _,label in ipairs(node.labels) do
+            if #label > 0 then 
+                if flights[label[#label]].port2 ~= self.base then
+                    label.cost =  label.cost + PENALTY[3]
+                end 
+                if label.cost < 0.0001 then
+                    routes[#routes+1] = label:to_column()
+                end 
+            end 
+        end 
+    end 
+    return routes
+end  
+
+
+
+function Label:extendNode(node1, node2)
+    local flight1, flight2 = flights[fid1], flights[fid2]
+    local tag, turnaround_time = self:copy(), ports[flight1.port2][crafts[self.cid].tp]
+    
+    tag.delay = math.max(0, flight1.time2 + self.delay + turnaround_time - flight2.time1)            
+    
+    if not flight2:isDelayFeasible(tag.delay) then return end 
+    
+    tag.cost = tag.cost + evaluator:getDelayCost(flight2, tag.delay) + evaluator:getCraftSwapCost(flight2, crafts[self.cid]) - flight2.dual     
+    
+--    if flight1.date < flight2.date and flight1.port2 ~= crafts[self.cid].base[flight1.date] then
+--        tag.cost = tag.cost + PENALTY[3]
+--    end 
+    tag[#tag+1] = fid2
+    for _,label in ipairs(node2.labels) do
+        if label:isDominate(tag) then 
+            return 
+        end 
+    end 
+    self:dominateLabelSet(node2.labels)
+    table.insert(node2.labels, tag)
+end 
 require 'mobdebug'.off()
-
-
 DAYS = 1
+PENALTY = {2000, 1300, 1800, 400, 25, 10, 1, 1, 1200, 800,1200,800, 300,600,400,500,800,500}
+evaluator = Evaluator:new()
 getData()
 
+columns = {}
+local master = Master:new()
 
-function initColumns()
-    
+master:WriteLP()
+master:lpSolve()
+master:updateSolution()
+master:setDuals()
+
+for c,craft in pairs(crafts) do
+    craft:createGraph()
 end
-
 require 'mobdebug'.on()
-columns = initColumns()
 
 
-print()
---crafts[1]:createGraph()
 
---local dis_rotations = {}
---for i=1,#crafts do
---    local rotation = Column:new(i)
---    local dis 
---    for f,flight in ipairs(flights) do
---        if flight.old == i then
---            rotation[#rotation+1] = {fid = f, slot = 0}  
---            if flight.dis then
---                dis = true
---            end 
---        end 
---    end 
---    print(rotation:getCost())
---    if dis then dis_rotations[#dis_rotations+1] = rotation end 
---    if #rotation > 0 then columns[#columns+1] = rotation end 
---end 
-
---for i=1,#dis_rotations do
---    for j=1,#dis_rotations[i] do
-    
---    end 
---end 
+master:solveSubproblem()
+print(master.objective)
 

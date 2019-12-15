@@ -1,0 +1,66 @@
+--function Flight:new(row)
+--    local self = {id = row[1], date = row[2] - 24, hbh = row[3], port1 = row[4], port2 = row[5], time1 = row[6] - 1440 * 24, time2 = row[7] - 1440 * 24,  old = row[9], tp = row[10], pass = row[11], revenue = row[12], water = row[13], atp = {row[14], row[15], row[16], row[17], row[18]}}
+--    setmetatable(self, Flight)
+--    return self
+--end    
+
+
+--function Flight:new(row)
+--    local self = {id = row[1], date = row[2] - 24, hbh = row[3], port1 = row[4], port2 = row[5], time1 = row[6] - 1440 * 24, time2 = row[7] - 1440 * 24,  old = row[9], tp = row[10], pass = row[11], revenue = row[12], water = row[13], atp = {row[14], row[15], row[16], row[17], row[18]}}
+--    setmetatable(self, Flight)
+----    if (self.port1 == 'ZUUU' and self.time1 > 60 * 13 and self.time1 <= 60 * 20) or (self.port2 == 'ZUUU' and self.time2 > 60 * 13 and self.time2 <= 60 * 20) then
+----        self.dis = true
+----    end 
+--    return self
+--end     
+
+
+--function Flight:getDelayCost(delay)
+--    local cost = 0
+--    if delay > 0 then
+--        cost = cost + PENALTY[2] + PENALTY[5] * delay + evaluator:pass_delay_coeff(delay) * self.pass
+--    end 
+--    return cost
+--end 
+
+--function Flight:getCraftSwapCost(craft_id)
+--    local cost = 0
+--    if self.id ~= craft_id then
+--        if self.tp ~= crafts[craft_id].tp then
+--            cost = cost + PENALTY[4] --* TYPE_TYPE[crafts[craft_id].tp][self.tp]
+--        end 
+--        cost = cost + PENALTY[6] * math.max(0, self.pass - crafts[craft_id].seat)
+--    end 
+--    return cost 
+--end 
+
+--function Flight:generateDelaySet()
+--    for i=10, 20 * 60,10 do
+--        local flight = DeepCopy(self)
+--        flight.time1, flight.time2 = flight.time1 + i, flight.time2 + i
+--    end 
+--end 
+
+--function Craft:new(row)
+--    local self = {id = row[1], tp = row[2], seat = row[3], rest = row[4], water = row[7], base = {}}
+--    if row[5] ~= 0 then
+--        self.fix = {row[5] - 1440 * 24, row[6] - 1440 * 24}
+--    end 
+----    for i=1,7 do
+----        self.base[i] = row[7+i]
+----    end 
+--    setmetatable(self, Craft)
+--    return self
+--end     
+--function Craft:convertLabels2Column()
+--    for i,label in ipairs(self.fit_flights[#self.fit_flights].labels) do
+--        if #label > 2 then 
+--            local route = {cost = label.cost, craft = self.id}
+--            for i=2,#label-1 do 
+--                route[#route+1] = self.fit_flights[label[i]]
+--            end 
+--            routes[#routes+1] = route
+--        end 
+--    end
+--    for i=1,#self.fit_flights do self.fit_flights[i].labels = {} end
+--end 
