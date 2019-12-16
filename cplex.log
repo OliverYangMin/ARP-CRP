@@ -82,3 +82,208 @@ Deterministic time = 0.20 ticks  (200.33 ticks/sec)
 
 
 Solution written to file 'MasterProblem_solution.sol'.
+
+Log started (V12.6.0.0) Mon Dec 16 16:05:32 2019
+
+
+Selected objective sense:  MINIMIZE
+Selected objective  name:  R0
+Selected RHS        name:  RHS
+
+Problem 'MasterProblem.mps' read.
+Read time = 0.00 sec. (0.07 ticks)
+Tried aggregator 1 time.
+LP Presolve eliminated 419 rows and 342 columns.
+All rows and columns eliminated.
+Presolve time = 0.00 sec. (0.10 ticks)
+
+Dual simplex - Optimal:  Objective = 1.0989965000e+006
+Solution time =    0.00 sec.  Iterations = 0 (0)
+Deterministic time = 0.20 ticks  (200.33 ticks/sec)
+
+
+Solution written to file 'MasterProblem_solution.sol'.
+
+Log started (V12.6.0.0) Mon Dec 16 16:05:39 2019
+
+
+Selected objective sense:  MINIMIZE
+Selected objective  name:  R0
+CPLEX Error  1435: Line 791: Exponent '-6.53896E303' out of range.
+No file read.
+No problem exists.
+No problem exists.
+No file written.
+
+Log started (V12.6.0.0) Mon Dec 16 16:10:47 2019
+
+
+Selected objective sense:  MINIMIZE
+Selected objective  name:  R0
+Selected RHS        name:  RHS
+
+Problem 'MasterProblem.mps' read.
+Read time = 0.00 sec. (0.07 ticks)
+Tried aggregator 1 time.
+LP Presolve eliminated 419 rows and 342 columns.
+All rows and columns eliminated.
+Presolve time = 0.00 sec. (0.10 ticks)
+
+Dual simplex - Optimal:  Objective = 1.0989965000e+006
+Solution time =    0.00 sec.  Iterations = 0 (0)
+Deterministic time = 0.20 ticks  (200.33 ticks/sec)
+
+
+Solution written to file 'MasterProblem_solution.sol'.
+
+Log started (V12.6.0.0) Mon Dec 16 16:10:53 2019
+
+
+Selected objective sense:  MINIMIZE
+Selected objective  name:  R0
+CPLEX Error  1435: Line 791: Exponent '-6.53896E303' out of range.
+No file read.
+No problem exists.
+No problem exists.
+No file written.
+
+Log started (V12.6.0.0) Mon Dec 16 16:11:55 2019
+
+
+Selected objective sense:  MINIMIZE
+Selected objective  name:  R0
+Selected RHS        name:  RHS
+
+Problem 'MasterProblem.mps' read.
+Read time = 0.00 sec. (0.07 ticks)
+Tried aggregator 1 time.
+LP Presolve eliminated 419 rows and 342 columns.
+All rows and columns eliminated.
+Presolve time = 0.00 sec. (0.10 ticks)
+
+Dual simplex - Optimal:  Objective = 1.0989965000e+006
+Solution time =    0.00 sec.  Iterations = 0 (0)
+Deterministic time = 0.20 ticks  (200.33 ticks/sec)
+
+
+Solution written to file 'MasterProblem_solution.sol'.
+
+Log started (V12.6.0.0) Mon Dec 16 16:12:07 2019
+
+
+Selected objective sense:  MINIMIZE
+Selected objective  name:  R0
+CPLEX Error  1435: Line 791: Exponent '-6.53896E303' out of range.
+No file read.
+No problem exists.
+No problem exists.
+No file written.
+
+Log started (V12.6.0.0) Mon Dec 16 16:13:32 2019
+
+
+Selected objective sense:  MINIMIZE
+Selected objective  name:  R0
+Selected RHS        name:  RHS
+
+Problem 'MasterProblem.mps' read.
+Read time = 0.00 sec. (0.07 ticks)
+Tried aggregator 1 time.
+LP Presolve eliminated 419 rows and 342 columns.
+All rows and columns eliminated.
+Presolve time = 0.00 sec. (0.10 ticks)
+
+Dual simplex - Optimal:  Objective = 1.0989965000e+006
+Solution time =    0.00 sec.  Iterations = 0 (0)
+Deterministic time = 0.20 ticks  (200.33 ticks/sec)
+
+
+Solution written to file 'MasterProblem_solution.sol'.
+
+Log started (V12.6.0.0) Mon Dec 16 16:17:44 2019
+
+
+Selected objective sense:  MINIMIZE
+Selected objective  name:  R0
+Selected RHS        name:  RHS
+
+Problem 'MasterProblem.mps' read.
+Read time = 0.00 sec. (0.07 ticks)
+Tried aggregator 1 time.
+LP Presolve eliminated 419 rows and 342 columns.
+All rows and columns eliminated.
+Presolve time = 0.00 sec. (0.10 ticks)
+
+Dual simplex - Optimal:  Objective = 1.0989965000e+006
+Solution time =    0.02 sec.  Iterations = 0 (0)
+Deterministic time = 0.20 ticks  (12.52 ticks/sec)
+
+
+Solution written to file 'MasterProblem_solution.sol'.
+
+Log started (V12.6.0.0) Mon Dec 16 16:18:50 2019
+
+
+Selected objective sense:  MINIMIZE
+Selected objective  name:  R0
+Selected RHS        name:  RHS
+
+Problem 'MasterProblem.mps' read.
+Read time = 0.00 sec. (0.07 ticks)
+Tried aggregator 1 time.
+LP Presolve eliminated 419 rows and 342 columns.
+All rows and columns eliminated.
+Presolve time = 0.00 sec. (0.10 ticks)
+
+Dual simplex - Optimal:  Objective = 1.0989965000e+006
+Solution time =    0.00 sec.  Iterations = 0 (0)
+Deterministic time = 0.20 ticks  (200.33 ticks/sec)
+
+
+Solution written to file 'MasterProblem_solution.sol'.
+
+Log started (V12.6.0.0) Mon Dec 16 16:19:19 2019
+
+
+Selected objective sense:  MINIMIZE
+Selected objective  name:  R0
+Selected RHS        name:  RHS
+
+Problem 'MasterProblem.mps' read.
+Read time = 0.00 sec. (0.07 ticks)
+Tried aggregator 1 time.
+LP Presolve eliminated 419 rows and 342 columns.
+All rows and columns eliminated.
+Presolve time = 0.00 sec. (0.10 ticks)
+
+Dual simplex - Optimal:  Objective = 1.0989965000e+006
+Solution time =    0.00 sec.  Iterations = 0 (0)
+Deterministic time = 0.20 ticks  (200.33 ticks/sec)
+
+
+Solution written to file 'MasterProblem_solution.sol'.
+
+Log started (V12.6.0.0) Mon Dec 16 16:19:25 2019
+
+
+Selected objective sense:  MINIMIZE
+Selected objective  name:  R0
+Selected RHS        name:  RHS
+
+Problem 'MasterProblem.mps' read.
+Read time = 0.00 sec. (0.17 ticks)
+Tried aggregator 1 time.
+LP Presolve eliminated 333 rows and 330 columns.
+Aggregator did 3 substitutions.
+Reduced LP has 83 rows, 224 columns, and 1057 nonzeros.
+Presolve time = 0.00 sec. (0.30 ticks)
+
+Iteration log . . .
+Iteration:     1   Dual objective     =        967726.500000
+
+Dual simplex - Optimal:  Objective = 1.0661915000e+006
+Solution time =    0.00 sec.  Iterations = 55 (0)
+Deterministic time = 0.60 ticks  (604.14 ticks/sec)
+
+
+Solution written to file 'MasterProblem_solution.sol'.

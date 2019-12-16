@@ -6,78 +6,129 @@ require '01Class.Master'
 require '01Class.Label'
 require '01Class.Column'
 require '01Class.Evaluator'
+minpq = require '03Algorithms.data.minpq'
+--require 'mobdebug'.off()
 
-
+flights, crafts, ports = getData()
+columns = {}
 function Craft:generateRoute()
-    for i=1,#self.order do
+    for i=0,#self.order do
         local node = self.nodes[self.order[i]]
         for _,label in ipairs(node.labels) do
             for _,node_id in ipairs(node.adj) do 
-                label:extendNode(node.fid, self.nodes[node_id].fid)  
+                label:extendNode(node, self.nodes[node_id])  
             end 
         end
     end
-    local routes = {}
+    return self:convertLabel2Column()
+end 
+
+function Craft:convertLabel2Column()
+    local pqueue = minpq.create(function(a, b) return a.cost - b.cost end)
     for _,node in ipairs(self.nodes) do
         for _,label in ipairs(node.labels) do
-            if #label > 0 then 
-                if flights[label[#label]].port2 ~= self.base then
-                    label.cost =  label.cost + PENALTY[3]
-                end 
-                if label.cost < 0.0001 then
-                    routes[#routes+1] = label:to_column()
-                end 
+             
+--            if flights[node.fid].port2 ~= self.base then
+--                label.cost =  label.cost + PENALTY[3]
+--            end 
+            label.cost = label.cost - self.dual
+            if label.cost < -0.000001 then
+                pqueue:enqueue(label)
+            end 
+             
+        end 
+    end 
+    return pqueue
+end 
+for c,craft in pairs(crafts) do
+    craft:createGraph()
+end
+function Master:solveSubproblem()
+    local is_opt = true
+    
+    for c,craft in pairs(crafts) do
+        local routes = craft:generateRoute()
+         
+        if not routes:isEmpty() then
+            is_opt = false
+        end 
+       -- require 'mobdebug'.on()
+        for i=1,5 do
+            if not routes:isEmpty() then  
+                local route = routes:delMin()
+                --print(route.cost)
+                columns[#columns+1] = route:to_column()
+            else
+                break
             end 
         end 
     end 
-    return routes
-end  
-
-
+    
+    return is_opt
+end 
 
 function Label:extendNode(node1, node2)
-    local flight1, flight2 = flights[fid1], flights[fid2]
-    local tag, turnaround_time = self:copy(), ports[flight1.port2][crafts[self.cid].tp]
-    
+    --require 'mobdebug'.on()
+    local flight1, flight2 = node1.fid == 0 and {port2 = crafts[self.cid].start, time2 = crafts[self.cid].stime} or flights[node1.fid], flights[node2.fid]
+    local tag, turnaround_time = Label:new(self.cid, node2.fid), ports[flight1.port2][crafts[self.cid].tp]
     tag.delay = math.max(0, flight1.time2 + self.delay + turnaround_time - flight2.time1)            
     
     if not flight2:isDelayFeasible(tag.delay) then return end 
     
-    tag.cost = tag.cost + evaluator:getDelayCost(flight2, tag.delay) + evaluator:getCraftSwapCost(flight2, crafts[self.cid]) - flight2.dual     
+    tag.cost = self.cost + evaluator:getDelayCost(flight2, tag.delay) + evaluator:getCraftSwapCost(flight2, crafts[self.cid]) - flight2.dual     
     
 --    if flight1.date < flight2.date and flight1.port2 ~= crafts[self.cid].base[flight1.date] then
 --        tag.cost = tag.cost + PENALTY[3]
 --    end 
-    tag[#tag+1] = fid2
+    --tag[#tag+1] = node2.fid
     for _,label in ipairs(node2.labels) do
         if label:isDominate(tag) then 
             return 
         end 
     end 
     self:dominateLabelSet(node2.labels)
+    tag.pre = self
     table.insert(node2.labels, tag)
 end 
-require 'mobdebug'.off()
-DAYS = 1
-PENALTY = {2000, 1300, 1800, 400, 25, 10, 1, 1, 1200, 800,1200,800, 300,600,400,500,800,500}
+
+function Label:isDominate(label)
+    if self.cost - label.cost <= 0.0001 and self.delay <= label.delay then
+--        if #self >= #label then 
+--            local run_flights_dict = {}
+--            for i=1,#self do
+--                run_flights_dict[self[i]] = true
+--            end 
+--            for i=1,#label do
+--                if not run_flights_dict[label[i]] then
+--                    return false
+--                end 
+--            end 
+--            return true
+--        end 
+       return true 
+    end
+    return false
+end 
+
+function Label:dominateLabelSet(label_set)
+    for i=#label_set,1,-1 do
+        if self:isDominate(label_set[i]) then 
+            table.remove(label_set, i)
+        end 
+    end
+end 
+
 evaluator = Evaluator:new()
-getData()
-
-columns = {}
-local master = Master:new()
-
-master:WriteLP()
-master:lpSolve()
-master:updateSolution()
-master:setDuals()
-
-for c,craft in pairs(crafts) do
-    craft:createGraph()
-end
-require 'mobdebug'.on()
-
-
-
-master:solveSubproblem()
-print(master.objective)
-
+repeat 
+    local master = Master:new()
+    master:WriteLP()
+    master:lpSolve()
+    master:updateSolution()
+    master:setDuals()
+    --require 'mobdebug'.off()
+    -- require 'mobdebug'.on()
+    local is_opt = master:solveSubproblem()
+   
+    print(master.objective)
+   
+until is_opt

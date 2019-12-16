@@ -2,27 +2,23 @@ Craft = {}
 Craft.__index = Craft
 
 function Craft:new(row)
-    local self = {id = row[1], tp = row[2], seat = row[3], stime = row[4], start = row[5]}
+    local self = {id = row[1], tp = row[2], seat = row[3], stime = row[4], start = row[5], water = row[6]}
     setmetatable(self, Craft)
     return self
 end     
 
-
 function Craft:createGraph()
-    self.nodes = {}
+    self.nodes = {[0] = {fid =0, labels = {Label:new(self.id, 0)}, adj = {}}}
     for f,flight in ipairs(flights) do
         if self:isOperable(flight) then
             self.nodes[#self.nodes + 1] = {fid = f, labels = {}, adj = {}, indegree = 0}
-            if flight.port1 == self.start then
-                local label = Label:new(self.id)
-                label[1] = f
-                table.insert(self.nodes[#self.nodes].labels, label)
-            end 
+        end 
+        if flight.port1 == self.start then
+            table.insert(self.nodes[0].adj, #self.nodes)
         end 
     end
     self:topoSort(self:addEdgesAdjIndegree())
 end 
-
 
 function Craft:addEdgesAdjIndegree()
     local edges = {}
@@ -44,21 +40,18 @@ function Craft:addEdgesAdjIndegree()
     return edges
 end
 
-
-
 function Craft:isOperable(flight)
-    return flight.atp[self.tp] > 0 and self.stime <= flight.time1--and flight.water <= self.water and (self.fix and (flight.time2 > self.fix[1] and flight.time2 <= self.fix[2]) or true) 
+    return flight.atp[self.tp] > 0 and self.stime <= flight.time1 and flight.water <= self.water --and (self.fix and (flight.time2 > self.fix[1] and flight.time2 <= self.fix[2]) or true) 
 end 
 
 function Craft:topoSort(edges)
-    local minpq = require '03Algorithms.data.minpq'
     local pqueue = minpq.create(function(a, b) return #self.nodes[a].adj - #self.nodes[b].adj end)
     for i=1,#self.nodes do
         if self.nodes[i].indegree == 0 then
             pqueue:enqueue(i)
         end
     end 
-    local result = {}
+    local result = {[0] = 0}
     while not pqueue:isEmpty() do
         local node = pqueue:delMin()
         result[#result+1] = node

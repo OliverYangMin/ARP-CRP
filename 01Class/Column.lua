@@ -1,11 +1,9 @@
 Column = {}
 Column.__index = Column 
 
-function Column:new(label)
-    local self = {craft = label.cid, reduced_cost = label.cost} --, delay = delay}
-    for i=1,#label do
-        self[i] = crafts[label.cid].nodes[label[i]].id
-    end 
+function Column:new(seq, craft_id)
+    local self = seq
+    self.craft = craft_id
     setmetatable(self, Column)
     return self
 end 
@@ -40,37 +38,3 @@ end
 function Column:copy()
     return DeepCopy(self)
 end 
-
---function Column:new(craft_id, delay)
---    local self = {craft = craft_id} --, delay = delay}
---    setmetatable(self, Column)
---    if not self.delay then
---        self.delay = {}
---        for i=1,#self do
---            self.delay[i] = 0
---        end 
---    end 
-    
---    self.isEnterDelay = false
---    return self
---end 
-
---function Column:isInboundSlot(time_slot)
---    local time = 0
---    for i=1,#self
---        local flight = flights[self[i]]
---        local delay = math.max(0, time + self.delay[i] - flight.time1) 
---        if flight.time2 + delay > time_slot and flight.time2 + delay <= time_slot + 10 then
---            return true
---        end 
---        time = flight.time2 + delay + ports[flight.port2][craft.tp]
---    end 
---    return false
---end 
-
---function Column:isOutboundSlot(time_slot)
---    for i=1,#self
---        if 
---    end 
---    return false
---end 

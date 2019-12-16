@@ -2,7 +2,7 @@
 <CPLEXSolution version="1.2">
  <header
    problemName="MasterProblem.mps"
-   objectiveValue="1098996.5"
+   objectiveValue="1066191.5"
    solutionTypeValue="1"
    solutionTypeString="basic"
    solutionStatusValue="1"
@@ -10,7 +10,7 @@
    solutionMethodString="dual"
    primalFeasible="1"
    dualFeasible="1"
-   simplexIterations="0"
+   simplexIterations="55"
    writeLevel="1"/>
  <quality
    epRHS="1e-06"
@@ -20,10 +20,10 @@
    maxPrimalResidual="0"
    maxDualResidual="0"
    maxX="1"
-   maxPi="3630"
+   maxPi="7813"
    maxSlack="1"
-   maxRedCost="0"
-   kappa="1"/>
+   maxRedCost="46608.5"
+   kappa="6.3"/>
  <linearConstraints>
   <constraint name="R1" index="0" status="LL" slack="0" dual="2790"/>
   <constraint name="R2" index="1" status="LL" slack="0" dual="3600"/>
@@ -46,7 +46,7 @@
   <constraint name="R19" index="18" status="LL" slack="0" dual="3430"/>
   <constraint name="R20" index="19" status="LL" slack="0" dual="3560"/>
   <constraint name="R21" index="20" status="LL" slack="0" dual="3290"/>
-  <constraint name="R22" index="21" status="LL" slack="0" dual="3390"/>
+  <constraint name="R22" index="21" status="LL" slack="0" dual="-3616"/>
   <constraint name="R23" index="22" status="LL" slack="0" dual="2500"/>
   <constraint name="R24" index="23" status="LL" slack="0" dual="3270"/>
   <constraint name="R25" index="24" status="LL" slack="0" dual="3420"/>
@@ -80,7 +80,7 @@
   <constraint name="R53" index="52" status="LL" slack="0" dual="3130"/>
   <constraint name="R54" index="53" status="LL" slack="0" dual="3270"/>
   <constraint name="R55" index="54" status="LL" slack="0" dual="3600"/>
-  <constraint name="R56" index="55" status="LL" slack="0" dual="3570"/>
+  <constraint name="R56" index="55" status="LL" slack="0" dual="1421"/>
   <constraint name="R57" index="56" status="LL" slack="0" dual="3270"/>
   <constraint name="R58" index="57" status="LL" slack="0" dual="-1960"/>
   <constraint name="R59" index="58" status="LL" slack="0" dual="3480"/>
@@ -113,8 +113,8 @@
   <constraint name="R86" index="85" status="LL" slack="0" dual="2980"/>
   <constraint name="R87" index="86" status="LL" slack="0" dual="3610"/>
   <constraint name="R88" index="87" status="LL" slack="0" dual="2960"/>
-  <constraint name="R89" index="88" status="LL" slack="0" dual="2820"/>
-  <constraint name="R90" index="89" status="LL" slack="0" dual="3370"/>
+  <constraint name="R89" index="88" status="LL" slack="0" dual="777"/>
+  <constraint name="R90" index="89" status="BS" slack="0" dual="0"/>
   <constraint name="R91" index="90" status="LL" slack="0" dual="3350"/>
   <constraint name="R92" index="91" status="LL" slack="0" dual="3450"/>
   <constraint name="R93" index="92" status="LL" slack="0" dual="3170"/>
@@ -198,7 +198,7 @@
   <constraint name="R171" index="170" status="LL" slack="0" dual="3270"/>
   <constraint name="R172" index="171" status="LL" slack="0" dual="3620"/>
   <constraint name="R173" index="172" status="LL" slack="0" dual="3400"/>
-  <constraint name="R174" index="173" status="LL" slack="0" dual="3330"/>
+  <constraint name="R174" index="173" status="LL" slack="0" dual="410"/>
   <constraint name="R175" index="174" status="LL" slack="0" dual="2590"/>
   <constraint name="R176" index="175" status="LL" slack="0" dual="3450"/>
   <constraint name="R177" index="176" status="LL" slack="0" dual="3120"/>
@@ -237,7 +237,7 @@
   <constraint name="R210" index="209" status="LL" slack="0" dual="3420"/>
   <constraint name="R211" index="210" status="LL" slack="0" dual="3280"/>
   <constraint name="R212" index="211" status="LL" slack="0" dual="3140"/>
-  <constraint name="R213" index="212" status="LL" slack="0" dual="3560"/>
+  <constraint name="R213" index="212" status="LL" slack="0" dual="-7813"/>
   <constraint name="R214" index="213" status="LL" slack="0" dual="3300"/>
   <constraint name="R215" index="214" status="LL" slack="0" dual="3610"/>
   <constraint name="R216" index="215" status="LL" slack="0" dual="3220"/>
@@ -362,16 +362,16 @@
   <constraint name="R335" index="334" status="LL" slack="0" dual="3370"/>
   <constraint name="R336" index="335" status="LL" slack="0" dual="3620"/>
   <constraint name="R337" index="336" status="LL" slack="0" dual="3610"/>
-  <constraint name="R338" index="337" status="LL" slack="0" dual="3480"/>
+  <constraint name="R338" index="337" status="LL" slack="0" dual="3126"/>
   <constraint name="R339" index="338" status="LL" slack="0" dual="3590"/>
   <constraint name="R340" index="339" status="LL" slack="0" dual="3010"/>
-  <constraint name="R341" index="340" status="LL" slack="0" dual="3590"/>
+  <constraint name="R341" index="340" status="BS" slack="0" dual="0"/>
   <constraint name="R342" index="341" status="LL" slack="0" dual="2900"/>
-  <constraint name="R343" index="342" status="BS" slack="1" dual="0"/>
+  <constraint name="R343" index="342" status="BS" slack="0" dual="0"/>
   <constraint name="R344" index="343" status="BS" slack="1" dual="0"/>
   <constraint name="R345" index="344" status="BS" slack="1" dual="0"/>
   <constraint name="R346" index="345" status="BS" slack="1" dual="0"/>
-  <constraint name="R347" index="346" status="BS" slack="1" dual="0"/>
+  <constraint name="R347" index="346" status="BS" slack="0" dual="0"/>
   <constraint name="R348" index="347" status="BS" slack="1" dual="0"/>
   <constraint name="R349" index="348" status="BS" slack="1" dual="0"/>
   <constraint name="R350" index="349" status="BS" slack="1" dual="0"/>
@@ -387,7 +387,7 @@
   <constraint name="R360" index="359" status="BS" slack="1" dual="0"/>
   <constraint name="R361" index="360" status="BS" slack="1" dual="0"/>
   <constraint name="R362" index="361" status="BS" slack="1" dual="0"/>
-  <constraint name="R363" index="362" status="BS" slack="1" dual="0"/>
+  <constraint name="R363" index="362" status="BS" slack="0" dual="0"/>
   <constraint name="R364" index="363" status="BS" slack="1" dual="0"/>
   <constraint name="R365" index="364" status="BS" slack="1" dual="0"/>
   <constraint name="R366" index="365" status="BS" slack="1" dual="0"/>
@@ -461,13 +461,13 @@
   <variable name="C13" index="12" status="BS" value="1" reducedCost="0"/>
   <variable name="C14" index="13" status="BS" value="1" reducedCost="0"/>
   <variable name="C15" index="14" status="BS" value="1" reducedCost="0"/>
-  <variable name="C16" index="15" status="BS" value="1" reducedCost="0"/>
+  <variable name="C16" index="15" status="BS" value="0" reducedCost="0"/>
   <variable name="C17" index="16" status="BS" value="1" reducedCost="0"/>
   <variable name="C18" index="17" status="BS" value="1" reducedCost="0"/>
   <variable name="C19" index="18" status="BS" value="1" reducedCost="0"/>
   <variable name="C20" index="19" status="BS" value="1" reducedCost="0"/>
   <variable name="C21" index="20" status="BS" value="1" reducedCost="0"/>
-  <variable name="C22" index="21" status="BS" value="1" reducedCost="0"/>
+  <variable name="C22" index="21" status="LL" value="0" reducedCost="7006"/>
   <variable name="C23" index="22" status="BS" value="1" reducedCost="0"/>
   <variable name="C24" index="23" status="BS" value="1" reducedCost="0"/>
   <variable name="C25" index="24" status="BS" value="1" reducedCost="0"/>
@@ -501,7 +501,7 @@
   <variable name="C53" index="52" status="BS" value="1" reducedCost="0"/>
   <variable name="C54" index="53" status="BS" value="1" reducedCost="0"/>
   <variable name="C55" index="54" status="BS" value="1" reducedCost="0"/>
-  <variable name="C56" index="55" status="BS" value="1" reducedCost="0"/>
+  <variable name="C56" index="55" status="LL" value="0" reducedCost="2149"/>
   <variable name="C57" index="56" status="BS" value="1" reducedCost="0"/>
   <variable name="C58" index="57" status="BS" value="1" reducedCost="0"/>
   <variable name="C59" index="58" status="BS" value="1" reducedCost="0"/>
@@ -534,8 +534,8 @@
   <variable name="C86" index="85" status="BS" value="1" reducedCost="0"/>
   <variable name="C87" index="86" status="BS" value="1" reducedCost="0"/>
   <variable name="C88" index="87" status="BS" value="1" reducedCost="0"/>
-  <variable name="C89" index="88" status="BS" value="1" reducedCost="0"/>
-  <variable name="C90" index="89" status="BS" value="1" reducedCost="0"/>
+  <variable name="C89" index="88" status="LL" value="0" reducedCost="2043"/>
+  <variable name="C90" index="89" status="LL" value="0" reducedCost="3370"/>
   <variable name="C91" index="90" status="BS" value="1" reducedCost="0"/>
   <variable name="C92" index="91" status="BS" value="1" reducedCost="0"/>
   <variable name="C93" index="92" status="BS" value="1" reducedCost="0"/>
@@ -552,7 +552,7 @@
   <variable name="C104" index="103" status="BS" value="1" reducedCost="0"/>
   <variable name="C105" index="104" status="BS" value="1" reducedCost="0"/>
   <variable name="C106" index="105" status="BS" value="1" reducedCost="0"/>
-  <variable name="C107" index="106" status="BS" value="1" reducedCost="0"/>
+  <variable name="C107" index="106" status="BS" value="0" reducedCost="0"/>
   <variable name="C108" index="107" status="BS" value="1" reducedCost="0"/>
   <variable name="C109" index="108" status="BS" value="1" reducedCost="0"/>
   <variable name="C110" index="109" status="BS" value="1" reducedCost="0"/>
@@ -619,9 +619,9 @@
   <variable name="C171" index="170" status="BS" value="1" reducedCost="0"/>
   <variable name="C172" index="171" status="BS" value="1" reducedCost="0"/>
   <variable name="C173" index="172" status="BS" value="1" reducedCost="0"/>
-  <variable name="C174" index="173" status="BS" value="1" reducedCost="0"/>
+  <variable name="C174" index="173" status="LL" value="0" reducedCost="2920"/>
   <variable name="C175" index="174" status="BS" value="1" reducedCost="0"/>
-  <variable name="C176" index="175" status="BS" value="1" reducedCost="0"/>
+  <variable name="C176" index="175" status="BS" value="0" reducedCost="0"/>
   <variable name="C177" index="176" status="BS" value="1" reducedCost="0"/>
   <variable name="C178" index="177" status="BS" value="1" reducedCost="0"/>
   <variable name="C179" index="178" status="BS" value="1" reducedCost="0"/>
@@ -658,7 +658,7 @@
   <variable name="C210" index="209" status="BS" value="1" reducedCost="0"/>
   <variable name="C211" index="210" status="BS" value="1" reducedCost="0"/>
   <variable name="C212" index="211" status="BS" value="1" reducedCost="0"/>
-  <variable name="C213" index="212" status="BS" value="1" reducedCost="0"/>
+  <variable name="C213" index="212" status="LL" value="0" reducedCost="11373"/>
   <variable name="C214" index="213" status="BS" value="1" reducedCost="0"/>
   <variable name="C215" index="214" status="BS" value="1" reducedCost="0"/>
   <variable name="C216" index="215" status="BS" value="1" reducedCost="0"/>
@@ -673,7 +673,7 @@
   <variable name="C225" index="224" status="BS" value="1" reducedCost="0"/>
   <variable name="C226" index="225" status="BS" value="1" reducedCost="0"/>
   <variable name="C227" index="226" status="BS" value="1" reducedCost="0"/>
-  <variable name="C228" index="227" status="BS" value="1" reducedCost="0"/>
+  <variable name="C228" index="227" status="BS" value="0" reducedCost="0"/>
   <variable name="C229" index="228" status="BS" value="1" reducedCost="0"/>
   <variable name="C230" index="229" status="BS" value="1" reducedCost="0"/>
   <variable name="C231" index="230" status="BS" value="1" reducedCost="0"/>
@@ -740,7 +740,7 @@
   <variable name="C292" index="291" status="BS" value="1" reducedCost="0"/>
   <variable name="C293" index="292" status="BS" value="1" reducedCost="0"/>
   <variable name="C294" index="293" status="BS" value="1" reducedCost="0"/>
-  <variable name="C295" index="294" status="BS" value="1" reducedCost="0"/>
+  <variable name="C295" index="294" status="BS" value="0" reducedCost="0"/>
   <variable name="C296" index="295" status="BS" value="1" reducedCost="0"/>
   <variable name="C297" index="296" status="BS" value="1" reducedCost="0"/>
   <variable name="C298" index="297" status="BS" value="1" reducedCost="0"/>
@@ -749,7 +749,7 @@
   <variable name="C301" index="300" status="BS" value="1" reducedCost="0"/>
   <variable name="C302" index="301" status="BS" value="1" reducedCost="0"/>
   <variable name="C303" index="302" status="BS" value="1" reducedCost="0"/>
-  <variable name="C304" index="303" status="BS" value="1" reducedCost="0"/>
+  <variable name="C304" index="303" status="BS" value="0" reducedCost="0"/>
   <variable name="C305" index="304" status="BS" value="1" reducedCost="0"/>
   <variable name="C306" index="305" status="BS" value="1" reducedCost="0"/>
   <variable name="C307" index="306" status="BS" value="1" reducedCost="0"/>
@@ -783,10 +783,225 @@
   <variable name="C335" index="334" status="BS" value="1" reducedCost="0"/>
   <variable name="C336" index="335" status="BS" value="1" reducedCost="0"/>
   <variable name="C337" index="336" status="BS" value="1" reducedCost="0"/>
-  <variable name="C338" index="337" status="BS" value="1" reducedCost="0"/>
+  <variable name="C338" index="337" status="LL" value="0" reducedCost="354"/>
   <variable name="C339" index="338" status="BS" value="1" reducedCost="0"/>
   <variable name="C340" index="339" status="BS" value="1" reducedCost="0"/>
-  <variable name="C341" index="340" status="BS" value="1" reducedCost="0"/>
+  <variable name="C341" index="340" status="LL" value="0" reducedCost="3590"/>
   <variable name="C342" index="341" status="BS" value="1" reducedCost="0"/>
+  <variable name="C343" index="342" status="LL" value="0" reducedCost="5416"/>
+  <variable name="C344" index="343" status="LL" value="0" reducedCost="6312.5"/>
+  <variable name="C345" index="344" status="LL" value="0" reducedCost="3572"/>
+  <variable name="C346" index="345" status="BS" value="1" reducedCost="0"/>
+  <variable name="C347" index="346" status="LL" value="0" reducedCost="13750.5"/>
+  <variable name="C348" index="347" status="LL" value="0" reducedCost="8192"/>
+  <variable name="C349" index="348" status="LL" value="0" reducedCost="6337"/>
+  <variable name="C350" index="349" status="BS" value="0" reducedCost="0"/>
+  <variable name="C351" index="350" status="LL" value="0" reducedCost="6850"/>
+  <variable name="C352" index="351" status="BS" value="1" reducedCost="0"/>
+  <variable name="C353" index="352" status="LL" value="0" reducedCost="6695.5"/>
+  <variable name="C354" index="353" status="LL" value="0" reducedCost="34904.5"/>
+  <variable name="C355" index="354" status="LL" value="0" reducedCost="5353.5"/>
+  <variable name="C356" index="355" status="LL" value="0" reducedCost="20272.5"/>
+  <variable name="C357" index="356" status="LL" value="0" reducedCost="2937.5"/>
+  <variable name="C358" index="357" status="LL" value="0" reducedCost="5416"/>
+  <variable name="C359" index="358" status="LL" value="0" reducedCost="6312.5"/>
+  <variable name="C360" index="359" status="LL" value="0" reducedCost="3796"/>
+  <variable name="C361" index="360" status="LL" value="0" reducedCost="0"/>
+  <variable name="C362" index="361" status="LL" value="0" reducedCost="7431.5"/>
+  <variable name="C363" index="362" status="LL" value="0" reducedCost="6123"/>
+  <variable name="C364" index="363" status="LL" value="0" reducedCost="33454.5"/>
+  <variable name="C365" index="364" status="LL" value="0" reducedCost="4268"/>
+  <variable name="C366" index="365" status="LL" value="0" reducedCost="5403.5"/>
+  <variable name="C367" index="366" status="LL" value="0" reducedCost="3022"/>
+  <variable name="C368" index="367" status="LL" value="0" reducedCost="6123"/>
+  <variable name="C369" index="368" status="LL" value="0" reducedCost="33454.5"/>
+  <variable name="C370" index="369" status="LL" value="0" reducedCost="4268"/>
+  <variable name="C371" index="370" status="LL" value="0" reducedCost="5403.5"/>
+  <variable name="C372" index="371" status="LL" value="0" reducedCost="3022"/>
+  <variable name="C373" index="372" status="LL" value="0" reducedCost="5416"/>
+  <variable name="C374" index="373" status="LL" value="0" reducedCost="6312.5"/>
+  <variable name="C375" index="374" status="LL" value="0" reducedCost="3796"/>
+  <variable name="C376" index="375" status="LL" value="0" reducedCost="0"/>
+  <variable name="C377" index="376" status="LL" value="0" reducedCost="7431.5"/>
+  <variable name="C378" index="377" status="LL" value="0" reducedCost="8192"/>
+  <variable name="C379" index="378" status="LL" value="0" reducedCost="6337"/>
+  <variable name="C380" index="379" status="LL" value="0" reducedCost="0"/>
+  <variable name="C381" index="380" status="LL" value="0" reducedCost="6850"/>
+  <variable name="C382" index="381" status="LL" value="0" reducedCost="0"/>
+  <variable name="C383" index="382" status="LL" value="0" reducedCost="6695.5"/>
+  <variable name="C384" index="383" status="LL" value="0" reducedCost="34904.5"/>
+  <variable name="C385" index="384" status="LL" value="0" reducedCost="5353.5"/>
+  <variable name="C386" index="385" status="LL" value="0" reducedCost="20272.5"/>
+  <variable name="C387" index="386" status="LL" value="0" reducedCost="2937.5"/>
+  <variable name="C388" index="387" status="LL" value="0" reducedCost="6123"/>
+  <variable name="C389" index="388" status="LL" value="0" reducedCost="6337"/>
+  <variable name="C390" index="389" status="LL" value="0" reducedCost="10693"/>
+  <variable name="C391" index="390" status="LL" value="0" reducedCost="4781"/>
+  <variable name="C392" index="391" status="BS" value="0" reducedCost="0"/>
+  <variable name="C393" index="392" status="LL" value="0" reducedCost="7333"/>
+  <variable name="C394" index="393" status="LL" value="0" reducedCost="32592"/>
+  <variable name="C395" index="394" status="LL" value="0" reducedCost="5751"/>
+  <variable name="C396" index="395" status="LL" value="0" reducedCost="8355"/>
+  <variable name="C397" index="396" status="LL" value="0" reducedCost="3444"/>
+  <variable name="C398" index="397" status="LL" value="0" reducedCost="6336"/>
+  <variable name="C399" index="398" status="LL" value="0" reducedCost="6539"/>
+  <variable name="C400" index="399" status="LL" value="0" reducedCost="9776.5"/>
+  <variable name="C401" index="400" status="LL" value="0" reducedCost="4725"/>
+  <variable name="C402" index="401" status="LL" value="0" reducedCost="2501"/>
+  <variable name="C403" index="402" status="LL" value="0" reducedCost="9482"/>
+  <variable name="C404" index="403" status="LL" value="0" reducedCost="3642"/>
+  <variable name="C405" index="404" status="LL" value="0" reducedCost="4490"/>
+  <variable name="C406" index="405" status="LL" value="0" reducedCost="722"/>
+  <variable name="C407" index="406" status="LL" value="0" reducedCost="3029"/>
+  <variable name="C408" index="407" status="BS" value="0" reducedCost="0"/>
+  <variable name="C409" index="408" status="BS" value="1" reducedCost="0"/>
+  <variable name="C410" index="409" status="LL" value="0" reducedCost="4531"/>
+  <variable name="C411" index="410" status="LL" value="0" reducedCost="10544"/>
+  <variable name="C412" index="411" status="LL" value="0" reducedCost="11793"/>
+  <variable name="C413" index="412" status="LL" value="0" reducedCost="6582"/>
+  <variable name="C414" index="413" status="LL" value="0" reducedCost="25688"/>
+  <variable name="C415" index="414" status="LL" value="0" reducedCost="6920"/>
+  <variable name="C416" index="415" status="LL" value="0" reducedCost="12122"/>
+  <variable name="C417" index="416" status="LL" value="0" reducedCost="3740"/>
+  <variable name="C418" index="417" status="LL" value="0" reducedCost="9482"/>
+  <variable name="C419" index="418" status="LL" value="0" reducedCost="722"/>
+  <variable name="C420" index="419" status="LL" value="0" reducedCost="5211"/>
+  <variable name="C421" index="420" status="LL" value="0" reducedCost="6392"/>
+  <variable name="C422" index="421" status="LL" value="0" reducedCost="552"/>
+  <variable name="C423" index="422" status="LL" value="0" reducedCost="6336"/>
+  <variable name="C424" index="423" status="LL" value="0" reducedCost="6539"/>
+  <variable name="C425" index="424" status="LL" value="0" reducedCost="9776.5"/>
+  <variable name="C426" index="425" status="LL" value="0" reducedCost="4725"/>
+  <variable name="C427" index="426" status="LL" value="0" reducedCost="2501"/>
+  <variable name="C428" index="427" status="LL" value="0" reducedCost="9482"/>
+  <variable name="C429" index="428" status="LL" value="0" reducedCost="6562"/>
+  <variable name="C430" index="429" status="LL" value="0" reducedCost="722"/>
+  <variable name="C431" index="430" status="LL" value="0" reducedCost="4586"/>
+  <variable name="C432" index="431" status="LL" value="0" reducedCost="21325"/>
+  <variable name="C433" index="432" status="LL" value="0" reducedCost="6123"/>
+  <variable name="C434" index="433" status="LL" value="0" reducedCost="33454.5"/>
+  <variable name="C435" index="434" status="LL" value="0" reducedCost="4268"/>
+  <variable name="C436" index="435" status="LL" value="0" reducedCost="5403.5"/>
+  <variable name="C437" index="436" status="LL" value="0" reducedCost="3022"/>
+  <variable name="C438" index="437" status="LL" value="0" reducedCost="5416"/>
+  <variable name="C439" index="438" status="LL" value="0" reducedCost="6312.5"/>
+  <variable name="C440" index="439" status="LL" value="0" reducedCost="3796"/>
+  <variable name="C441" index="440" status="LL" value="0" reducedCost="0"/>
+  <variable name="C442" index="441" status="LL" value="0" reducedCost="7431.5"/>
+  <variable name="C443" index="442" status="LL" value="0" reducedCost="9482"/>
+  <variable name="C444" index="443" status="LL" value="0" reducedCost="6562"/>
+  <variable name="C445" index="444" status="LL" value="0" reducedCost="722"/>
+  <variable name="C446" index="445" status="LL" value="0" reducedCost="4586"/>
+  <variable name="C447" index="446" status="LL" value="0" reducedCost="21325"/>
+  <variable name="C448" index="447" status="LL" value="0" reducedCost="7333"/>
+  <variable name="C449" index="448" status="LL" value="0" reducedCost="7683"/>
+  <variable name="C450" index="449" status="LL" value="0" reducedCost="10740"/>
+  <variable name="C451" index="450" status="LL" value="0" reducedCost="7727"/>
+  <variable name="C452" index="451" status="LL" value="0" reducedCost="2928"/>
+  <variable name="C453" index="452" status="LL" value="0" reducedCost="6336"/>
+  <variable name="C454" index="453" status="LL" value="0" reducedCost="6539"/>
+  <variable name="C455" index="454" status="LL" value="0" reducedCost="9776.5"/>
+  <variable name="C456" index="455" status="LL" value="0" reducedCost="4725"/>
+  <variable name="C457" index="456" status="LL" value="0" reducedCost="496"/>
+  <variable name="C458" index="457" status="LL" value="0" reducedCost="0"/>
+  <variable name="C459" index="458" status="LL" value="0" reducedCost="0"/>
+  <variable name="C460" index="459" status="LL" value="0" reducedCost="4531"/>
+  <variable name="C461" index="460" status="LL" value="0" reducedCost="10544"/>
+  <variable name="C462" index="461" status="LL" value="0" reducedCost="11793"/>
+  <variable name="C463" index="462" status="LL" value="0" reducedCost="8161"/>
+  <variable name="C464" index="463" status="LL" value="0" reducedCost="34292"/>
+  <variable name="C465" index="464" status="LL" value="0" reducedCost="8555"/>
+  <variable name="C466" index="465" status="LL" value="0" reducedCost="20207"/>
+  <variable name="C467" index="466" status="LL" value="0" reducedCost="5357"/>
+  <variable name="C468" index="467" status="LL" value="0" reducedCost="9482"/>
+  <variable name="C469" index="468" status="LL" value="0" reducedCost="6562"/>
+  <variable name="C470" index="469" status="LL" value="0" reducedCost="722"/>
+  <variable name="C471" index="470" status="LL" value="0" reducedCost="4586"/>
+  <variable name="C472" index="471" status="LL" value="0" reducedCost="21325"/>
+  <variable name="C473" index="472" status="LL" value="0" reducedCost="9482"/>
+  <variable name="C474" index="473" status="LL" value="0" reducedCost="6562"/>
+  <variable name="C475" index="474" status="LL" value="0" reducedCost="722"/>
+  <variable name="C476" index="475" status="LL" value="0" reducedCost="4586"/>
+  <variable name="C477" index="476" status="LL" value="0" reducedCost="21325"/>
+  <variable name="C478" index="477" status="LL" value="0" reducedCost="5416"/>
+  <variable name="C479" index="478" status="LL" value="0" reducedCost="6312.5"/>
+  <variable name="C480" index="479" status="LL" value="0" reducedCost="3796"/>
+  <variable name="C481" index="480" status="LL" value="0" reducedCost="0"/>
+  <variable name="C482" index="481" status="LL" value="0" reducedCost="7431.5"/>
+  <variable name="C483" index="482" status="LL" value="0" reducedCost="8192"/>
+  <variable name="C484" index="483" status="LL" value="0" reducedCost="6337"/>
+  <variable name="C485" index="484" status="LL" value="0" reducedCost="0"/>
+  <variable name="C486" index="485" status="LL" value="0" reducedCost="6850"/>
+  <variable name="C487" index="486" status="LL" value="0" reducedCost="0"/>
+  <variable name="C488" index="487" status="LL" value="0" reducedCost="6203"/>
+  <variable name="C489" index="488" status="LL" value="0" reducedCost="27662"/>
+  <variable name="C490" index="489" status="LL" value="0" reducedCost="4861"/>
+  <variable name="C491" index="490" status="LL" value="0" reducedCost="14002"/>
+  <variable name="C492" index="491" status="LL" value="0" reducedCost="2445"/>
+  <variable name="C493" index="492" status="LL" value="0" reducedCost="6695.5"/>
+  <variable name="C494" index="493" status="LL" value="0" reducedCost="34904.5"/>
+  <variable name="C495" index="494" status="LL" value="0" reducedCost="5353.5"/>
+  <variable name="C496" index="495" status="LL" value="0" reducedCost="20272.5"/>
+  <variable name="C497" index="496" status="LL" value="0" reducedCost="2937.5"/>
+  <variable name="C498" index="497" status="LL" value="0" reducedCost="8192"/>
+  <variable name="C499" index="498" status="LL" value="0" reducedCost="6337"/>
+  <variable name="C500" index="499" status="LL" value="0" reducedCost="0"/>
+  <variable name="C501" index="500" status="LL" value="0" reducedCost="6850"/>
+  <variable name="C502" index="501" status="LL" value="0" reducedCost="0"/>
+  <variable name="C503" index="502" status="LL" value="0" reducedCost="6203"/>
+  <variable name="C504" index="503" status="LL" value="0" reducedCost="27662"/>
+  <variable name="C505" index="504" status="LL" value="0" reducedCost="4861"/>
+  <variable name="C506" index="505" status="LL" value="0" reducedCost="14002"/>
+  <variable name="C507" index="506" status="LL" value="0" reducedCost="2445"/>
+  <variable name="C508" index="507" status="LL" value="0" reducedCost="5416"/>
+  <variable name="C509" index="508" status="LL" value="0" reducedCost="6312.5"/>
+  <variable name="C510" index="509" status="LL" value="0" reducedCost="3796"/>
+  <variable name="C511" index="510" status="LL" value="0" reducedCost="0"/>
+  <variable name="C512" index="511" status="LL" value="0" reducedCost="7431.5"/>
+  <variable name="C513" index="512" status="LL" value="0" reducedCost="4822.5"/>
+  <variable name="C514" index="513" status="LL" value="0" reducedCost="34049.5"/>
+  <variable name="C515" index="514" status="LL" value="0" reducedCost="32281.5"/>
+  <variable name="C516" index="515" status="LL" value="0" reducedCost="5248.5"/>
+  <variable name="C517" index="516" status="LL" value="0" reducedCost="3480.5"/>
+  <variable name="C518" index="517" status="LL" value="0" reducedCost="8192"/>
+  <variable name="C519" index="518" status="LL" value="0" reducedCost="6337"/>
+  <variable name="C520" index="519" status="LL" value="0" reducedCost="0"/>
+  <variable name="C521" index="520" status="LL" value="0" reducedCost="6850"/>
+  <variable name="C522" index="521" status="LL" value="0" reducedCost="0"/>
+  <variable name="C523" index="522" status="LL" value="0" reducedCost="8192"/>
+  <variable name="C524" index="523" status="LL" value="0" reducedCost="6337"/>
+  <variable name="C525" index="524" status="LL" value="0" reducedCost="0"/>
+  <variable name="C526" index="525" status="LL" value="0" reducedCost="6850"/>
+  <variable name="C527" index="526" status="LL" value="0" reducedCost="0"/>
+  <variable name="C528" index="527" status="LL" value="0" reducedCost="6123"/>
+  <variable name="C529" index="528" status="LL" value="0" reducedCost="6390"/>
+  <variable name="C530" index="529" status="LL" value="0" reducedCost="10746"/>
+  <variable name="C531" index="530" status="LL" value="0" reducedCost="4839"/>
+  <variable name="C532" index="531" status="LL" value="0" reducedCost="0"/>
+  <variable name="C533" index="532" status="LL" value="0" reducedCost="5416"/>
+  <variable name="C534" index="533" status="LL" value="0" reducedCost="6312.5"/>
+  <variable name="C535" index="534" status="LL" value="0" reducedCost="3796"/>
+  <variable name="C536" index="535" status="LL" value="0" reducedCost="0"/>
+  <variable name="C537" index="536" status="LL" value="0" reducedCost="7431.5"/>
+  <variable name="C538" index="537" status="LL" value="0" reducedCost="8028.5"/>
+  <variable name="C539" index="538" status="LL" value="0" reducedCost="46608.5"/>
+  <variable name="C540" index="539" status="LL" value="0" reducedCost="6686.5"/>
+  <variable name="C541" index="540" status="LL" value="0" reducedCost="30109.5"/>
+  <variable name="C542" index="541" status="LL" value="0" reducedCost="4270.5"/>
+  <variable name="C543" index="542" status="LL" value="0" reducedCost="8192"/>
+  <variable name="C544" index="543" status="LL" value="0" reducedCost="6390"/>
+  <variable name="C545" index="544" status="LL" value="0" reducedCost="58"/>
+  <variable name="C546" index="545" status="LL" value="0" reducedCost="6908"/>
+  <variable name="C547" index="546" status="LL" value="0" reducedCost="0"/>
+  <variable name="C548" index="547" status="LL" value="0" reducedCost="8192"/>
+  <variable name="C549" index="548" status="LL" value="0" reducedCost="6390"/>
+  <variable name="C550" index="549" status="LL" value="0" reducedCost="58"/>
+  <variable name="C551" index="550" status="LL" value="0" reducedCost="6908"/>
+  <variable name="C552" index="551" status="LL" value="0" reducedCost="0"/>
+  <variable name="C553" index="552" status="LL" value="0" reducedCost="8192"/>
+  <variable name="C554" index="553" status="LL" value="0" reducedCost="6337"/>
+  <variable name="C555" index="554" status="LL" value="0" reducedCost="0"/>
+  <variable name="C556" index="555" status="LL" value="0" reducedCost="6850"/>
+  <variable name="C557" index="556" status="LL" value="0" reducedCost="0"/>
  </variables>
 </CPLEXSolution>
