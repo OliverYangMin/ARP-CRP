@@ -69,16 +69,18 @@ function getData()
     
     for f,flight in pairs(flights) do
         if flight.port1 == 'ZUUU' then
-            if flight.time1 >= 480 and flight.time1 <= 600 then
+            if flight.time1 >= 360 and flight.time1 < 480 then
                 flight.time1, flight.time2 = flight.time1 + 120, flight.time2 + 120
                 flight.impacted = true
             end 
         elseif flight.port2 == 'ZUUU' then
-            if flight.time2 >= 480 and flight.time2 <= 600 then
+            if flight.time2 >= 360 and flight.time2 < 600 then
                 flight.time1, flight.time2 = flight.time1 + 120, flight.time2 + 120
                 flight.impacted = true
             end 
         end 
     end 
+    
+
     return flights, crafts, ports
 end 

@@ -4,6 +4,7 @@ Column.__index = Column
 function Column:new(seq, craft_id)
     local self = seq
     self.craft = craft_id
+    self.cost = evaluator:getCost(self)
     setmetatable(self, Column)
     return self
 end 

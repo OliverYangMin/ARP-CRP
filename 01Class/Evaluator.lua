@@ -2,11 +2,7 @@ Evaluator = {}
 Evaluator.__index = Evaluator 
 
 PENALTY = {2000, 1300, 1800, 400, 25, 10, 1, 1, 1200, 800, 1200, 800, 300, 600, 400, 500, 800, 500}
-local TYPE_TYPE = {{0,1,2,3,5},
-        {1,0,1.5,2.5,4},
-        {2,1.5,0,2,3.5},
-        {3,2.5,2,0,2},
-        {5,4,3.5,2,0}}
+local TYPE_TYPE = {{0,1,2,3,5}, {1,0,1.5,2.5,4}, {2,1.5,0,2,3.5}, {3,2.5,2,0,2}, {5,4,3.5,2,0}}
 
 function Evaluator:new()
     local self = {}
@@ -32,13 +28,13 @@ function Evaluator:passenger_delay_coeff(delay)
     end 
 end 
 
-function Evaluator:getDelayCost(flight, delay)
+function Evaluator:getDelayCost(flight, delay, craft)
     local cost = 0
     if delay > 0 then
-        if flight.impacted then
-            cost = cost + PENALTY[5] * delay + (self:passenger_delay_coeff(delay+120)) - 1.5 * flight.pass
+        if flight.impacted then 
+            cost = cost + PENALTY[5] * delay + PENALTY[7] * self:passenger_delay_coeff(delay + 120) * math.min(flight.pass, craft.seat) 
         else
-            cost = cost + PENALTY[2] + PENALTY[5] * delay + self:passenger_delay_coeff(delay) * flight.pass
+            cost = cost + PENALTY[2] + PENALTY[5] * delay + PENALTY[7] * self:passenger_delay_coeff(delay) * math.min(flight.pass, craft.seat) 
         end 
     end 
     return cost
@@ -62,18 +58,9 @@ function Evaluator:getCost(column)
         local flight = flights[column[i]]
         local delay = math.max(0, time - flight.time1)
         
-        ---航班延误：延误班次=2，延误时间=5，乘客延误时间=7
-        if delay > 0 then
-            if flight.impacted then 
-                cost = cost + delay * PENALTY[5] + self:passenger_delay_coeff(delay + 120) * math.min(flight.pass, craft.seat) * PENALTY[7]
-            else
-                cost = cost + PENALTY[2] + delay * PENALTY[5] + self:passenger_delay_coeff(delay) * math.min(flight.pass, craft.seat) * PENALTY[7]
-            end 
-        end 
-        
-        ---换机:机型更换=4, 乘客减少=6
-        cost = cost + self:getCraftSwapCost(flight, craft)
-        
+        ---航班延误：延误班次=2，延误时间=5，乘客延误时间=7 ---换机:机型更换=4, 乘客减少=6
+        cost = cost + self:getDelayCost(flight, delay, craft) + self:getCraftSwapCost(flight, craft)
+      
         --- 联程=10
 --        if flight.double then
 --            if i == #column or column[i+1] ~= flight.double then

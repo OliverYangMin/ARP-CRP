@@ -7,8 +7,38 @@ function Craft:new(row)
     return self
 end     
 
+function Craft:labelSetting()
+    for i=0,#self.order do
+        local node = self.nodes[self.order[i]]
+        for _,label in ipairs(node.labels) do
+            for _,node_id in ipairs(node.adj) do 
+                label:extendNode(node, self.nodes[node_id])  
+            end 
+        end
+    end 
+end 
+
+function Craft:convertLabel2Column()
+    
+    local pqueue = minpq.create(function(a, b) return a.cost - b.cost end)
+    for _,node in ipairs(self.nodes) do
+        for _,label in ipairs(node.labels) do
+            label.cost = label.cost - self.dual
+            if label.cost < -0.000001 then
+                pqueue:enqueue(label)
+            end 
+        end 
+    end 
+    return pqueue
+end 
+
+function Craft:generateRoutes()
+    self:labelSetting()
+    return self:convertLabel2Column()
+end 
+
 function Craft:createGraph()
-    self.nodes = {[0] = {fid =0, labels = {Label:new(self.id, 0)}, adj = {}}}
+    self.nodes = {[0] = {fid = 0, labels = {Label:new(self.id, 0)}, adj = {}}}
     for f,flight in ipairs(flights) do
         if self:isOperable(flight) then
             self.nodes[#self.nodes + 1] = {fid = f, labels = {}, adj = {}, indegree = 0}

@@ -1,3 +1,8 @@
+    
+--    if flight1.date < flight2.date and flight1.port2 ~= crafts[self.cid].base[flight1.date] then
+--        tag.cost = tag.cost + PENALTY[3]
+--    end 
+
 --function Flight:new(row)
 --    local self = {id = row[1], date = row[2] - 24, hbh = row[3], port1 = row[4], port2 = row[5], time1 = row[6] - 1440 * 24, time2 = row[7] - 1440 * 24,  old = row[9], tp = row[10], pass = row[11], revenue = row[12], water = row[13], atp = {row[14], row[15], row[16], row[17], row[18]}}
 --    setmetatable(self, Flight)
