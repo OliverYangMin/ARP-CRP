@@ -1,3 +1,33 @@
+function init()
+    flights, crafts, ports = getData()
+    for c,craft in pairs(crafts) do
+        craft:createGraph()
+    end
+        
+    evaluator = Evaluator:new()
+    initColumns()
+end 
+
+function clearLabels()
+    for c,craft in pairs(crafts) do
+        craft:clearLabels()
+    end
+end 
+
+function initColumns()
+    columns = {}
+    for c,craft in pairs(crafts) do
+        for i=1,#flights do
+            if flights[i].port1 == craft.start then
+                columns[#columns+1] = Column:new({i, 0}, c)
+            end 
+        end
+--        if not craft.dis then
+--            columns[#columns+1] = getRotation(craft)
+--        end 
+    end 
+end 
+
 function DeepCopy(object)      
     local SearchTable = {}  
     local function Func(object)  
@@ -80,7 +110,5 @@ function getData()
             end 
         end 
     end 
-    
-
     return flights, crafts, ports
 end 

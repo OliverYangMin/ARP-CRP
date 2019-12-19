@@ -32,7 +32,7 @@ function Evaluator:getDelayCost(flight, delay, craft)
     local cost = 0
     if delay > 0 then
         if flight.impacted then 
-            cost = cost + PENALTY[5] * delay + PENALTY[7] * self:passenger_delay_coeff(delay + 120) * math.min(flight.pass, craft.seat) 
+           cost = cost + PENALTY[5] * delay + PENALTY[7] * self:passenger_delay_coeff(delay + 120) * math.min(flight.pass, craft.seat) 
         else
             cost = cost + PENALTY[2] + PENALTY[5] * delay + PENALTY[7] * self:passenger_delay_coeff(delay) * math.min(flight.pass, craft.seat) 
         end 
@@ -77,8 +77,8 @@ function Evaluator:getCost(column)
         time = flight.time2 + delay + ports[flight.port2][craft.tp]
     end
     
---    if flights[column[1]].port2 ~= craft.base then
---        return cost + PENALTY[3]
---    end 
+    if flights[column[1]].port2 ~= craft.base then
+        return cost + PENALTY[3]
+    end 
     return cost 
 end 

@@ -13,13 +13,50 @@ function Master:solveSubproblem()
         local routes = craft:generateRoutes()
         if not routes:isEmpty() then
             not_opt = true
-            local route = routes:delMin()
-            columns[#columns+1] = route:to_column()
+            for i=1,5 do
+                local route = routes:delMin()
+                columns[#columns+1] = route:to_column()
+                if routes:isEmpty() then break end 
+            end 
         end 
     end 
     return not_opt
 end 
 
+function Master:updateSolution()
+    self.var = {}
+    if self.result_type == 'cplex' then 
+        
+        self.duals = {}
+        local i, j, inputf = 1, 1, io.open(self.name .. "_solution.sol")
+        if inputf then 
+            for line in inputf:lines() do
+                if not self.objective then
+                    self.objective = string.match(line, "objectiveValue=\"([-%d%.e]+)\"")
+                end
+                
+                if not self.duals[j] then
+                    self.duals[j] = tonumber(string.match(line, "constraint.+dual=\"([-%d%.e]+)\""))
+                    if self.duals[j] then j = j + 1 end 
+                end 
+                if not self.var[i] then
+                    self.var[i] = tonumber(string.match(line, "variable.+value=\"([-%d%.e]+)\""))
+                    if self.var[i] then i = i + 1 end
+                end
+            end
+            inputf:close()
+        else
+            error('open solution.sol with error')
+        end 
+    elseif self.result_type == 'lp' then
+        self.objective = GetObjective(self.lp)
+        self.var = {}
+        for i=1,#self.obj do
+            self.var[i] = GetVariable(self.lp, i)
+        end 
+        
+    end 
+end 
 function Master:SetObjFunction()
     for f,flight in pairs(flights) do -- no double flight cancel: both cancel or single cancel
         if flight.impacted then 
@@ -31,6 +68,10 @@ function Master:SetObjFunction()
     ---the cost for every route has been found
     for i=1,#columns do
         self.obj[#self.obj+1] = columns[i]:getCost()
+    end 
+    
+    for c,craft in pairs(crafts) do
+        self.obj[#self.obj+1] = craft.start == craft.base and 0 or PENALTY[3]
     end 
     SetObjFunction(self.lp, self.obj, 'min')
 end 
@@ -58,6 +99,7 @@ function Master:AddConstraint()
         resetCoeff()
     end
     ---constraint 2 every flight been execute by only one route or be canceled
+    local c = 1
     for cid,craft in pairs(crafts) do
         for j=1,#columns do 
             if columns[j].craft == cid then 
@@ -65,46 +107,26 @@ function Master:AddConstraint()
                 changed[#changed+1] = #flights + j
             end 
         end 
-        AddConstraint(self.lp, coeff, '<=', 1)
+        coeff[#flights+#columns+c] = 1 
+        AddConstraint(self.lp, coeff, '=', 1)
         resetCoeff()
+        c = c + 1
     end 
 end 
 
 function Master:setDuals()
-    local duals = {GetDuals(self.lp)}
+    self.duals = self.duals or {GetDuals(self.lp)}
     for f,flight in ipairs(flights) do
-        flight.dual = duals[f]
+        flight.dual = self.duals[f]
     end 
     local i = 1
     for c,craft in pairs(crafts) do
-        craft.dual = duals[#flights+i]
+        craft.dual = self.duals[#flights+i]
         i = i + 1
     end
 end 
 
-function Master:updateSolution()
-    if self.result_type == 'cplex' then 
-        self.var = {}
-        local i, inputf = 1, io.open(self.name .. "_solution.sol")
-        if inputf then 
-            for line in inputf:lines() do
-                if not self.objective then
-                    self.objective = string.match(line, "objectiveValue=\"([-%d%.e]+)\"")
-                end
-                if not self.var[i] then
-                    self.var[i] = tonumber(string.match(line, "variable.+value=\"([-%d%.e]+)\""))
-                    if self.var[i] then i = i + 1 end
-                end
-            end
-            inputf:close()
-        else
-            error('open solution.sol with error')
-        end 
-    elseif self.result_type == 'lp' then
-        self.objective = GetObjective(self.lp)
-        self.var = {GetVariables(self.lp)}
-    end 
-end 
+
 
 function Master:WriteLP()
     self:SetObjFunction()

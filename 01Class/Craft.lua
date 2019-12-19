@@ -7,6 +7,11 @@ function Craft:new(row)
     return self
 end     
 
+function Craft:generateRoutes()
+    self:labelSetting()
+    return self:convertLabel2Column()
+end 
+
 function Craft:labelSetting()
     for i=0,#self.order do
         local node = self.nodes[self.order[i]]
@@ -19,11 +24,13 @@ function Craft:labelSetting()
 end 
 
 function Craft:convertLabel2Column()
-    
     local pqueue = minpq.create(function(a, b) return a.cost - b.cost end)
     for _,node in ipairs(self.nodes) do
         for _,label in ipairs(node.labels) do
             label.cost = label.cost - self.dual
+            if flights[label.fid].port2 ~= self.base then
+                label.cost =  label.cost + PENALTY[3]
+            end 
             if label.cost < -0.000001 then
                 pqueue:enqueue(label)
             end 
@@ -32,15 +39,10 @@ function Craft:convertLabel2Column()
     return pqueue
 end 
 
-function Craft:generateRoutes()
-    self:labelSetting()
-    return self:convertLabel2Column()
-end 
-
 function Craft:createGraph()
     self.nodes = {[0] = {fid = 0, labels = {Label:new(self.id, 0)}, adj = {}}}
     for f,flight in ipairs(flights) do
-        if self:isOperable(flight) then
+        if flight:isOperable(self) then
             self.nodes[#self.nodes + 1] = {fid = f, labels = {}, adj = {}, indegree = 0}
         end 
         if flight.port1 == self.start then
@@ -70,10 +72,6 @@ function Craft:addEdgesAdjIndegree()
     return edges
 end
 
-function Craft:isOperable(flight)
-    return flight.atp[self.tp] > 0 and self.stime <= flight.time1 and flight.water <= self.water --and (self.fix and (flight.time2 > self.fix[1] and flight.time2 <= self.fix[2]) or true) 
-end 
-
 function Craft:topoSort(edges)
     local pqueue = minpq.create(function(a, b) return #self.nodes[a].adj - #self.nodes[b].adj end)
     for i=1,#self.nodes do
@@ -96,5 +94,11 @@ function Craft:topoSort(edges)
         self.order = result
     else
         error('This is a cycle of craft ' .. self.id)
+    end
+end 
+
+function Craft:clearLabels()
+    for i=1,#craft.nodes do
+        craft.nodes[i].labels = {}
     end
 end 

@@ -9,21 +9,7 @@ require '01Class.Evaluator'
 minpq = require '03Algorithms.data.minpq'
 --require 'mobdebug'.off()
 
-flights, crafts, ports = getData()
-for c,craft in pairs(crafts) do
-    craft:createGraph()
-end
-    
-  
-evaluator = Evaluator:new()
-columns = {}
-for i=1,#flights do
-    if flights[i].port1 == 'ZUUU' then
-        columns[#columns+1] = Column:new({i,0},165)
-    end 
-end
-
-
+init()
 
 repeat 
     local master = Master:new()
@@ -31,14 +17,12 @@ repeat
     master:lpSolve()
     master:updateSolution()
     master:setDuals()
-    --require 'mobdebug'.on()
-    for c,craft in pairs(crafts) do
-        for i=1,#craft.nodes do
-            craft.nodes[i].labels = {}
-        end
-    end 
+     
     local not_opt = master:solveSubproblem()
+    clearLabels()
+    
     print(master.objective)
+    print(#columns)
 until not not_opt
 
 local master = Master:new()
