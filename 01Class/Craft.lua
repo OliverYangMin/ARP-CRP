@@ -98,7 +98,7 @@ function Craft:topoSort(edges)
 end 
 
 function Craft:clearLabels()
-    for i=1,#craft.nodes do
-        craft.nodes[i].labels = {}
+    for i=1,#self.nodes do
+        self.nodes[i].labels = {}
     end
 end 
