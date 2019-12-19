@@ -90,6 +90,8 @@ function getData()
     for c,craft in pairs(crafts) do
         local rotation = getRotation(c)
         if #rotation > 0 then
+            
+            
             craft.base = rotation[#rotation].port2
             craft.start = rotation[1].port1
         else

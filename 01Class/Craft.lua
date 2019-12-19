@@ -12,16 +12,7 @@ function Craft:generateRoutes()
     return self:convertLabel2Column()
 end 
 
-function Craft:labelSetting()
-    for i=0,#self.order do
-        local node = self.nodes[self.order[i]]
-        for _,label in ipairs(node.labels) do
-            for _,node_id in ipairs(node.adj) do 
-                label:extendNode(node, self.nodes[node_id])  
-            end 
-        end
-    end 
-end 
+
 
 function Craft:convertLabel2Column()
     local pqueue = minpq.create(function(a, b) return a.cost - b.cost end)
@@ -39,18 +30,6 @@ function Craft:convertLabel2Column()
     return pqueue
 end 
 
-function Craft:createGraph()
-    self.nodes = {[0] = {fid = 0, labels = {Label:new(self.id, 0)}, adj = {}}}
-    for f,flight in ipairs(flights) do
-        if flight:isOperable(self) then
-            self.nodes[#self.nodes + 1] = {fid = f, labels = {}, adj = {}, indegree = 0}
-        end 
-        if flight.port1 == self.start then
-            table.insert(self.nodes[0].adj, #self.nodes)
-        end 
-    end
-    self:topoSort(self:addEdgesAdjIndegree())
-end 
 
 function Craft:addEdgesAdjIndegree()
     local edges = {}
