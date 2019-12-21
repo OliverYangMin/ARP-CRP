@@ -23,21 +23,6 @@ function Craft:labelSetting()
     end 
 end 
 
-function Craft:convertLabel2Column()
-    local pqueue = minpq.create(function(a, b) return a.cost - b.cost end)
-    for _,node in ipairs(self.nodes) do
-        for _,label in ipairs(node.labels) do
-            label.cost = label.cost - self.dual
-            if flights[label.fid].port2 ~= self.base then
-                label.cost =  label.cost + PENALTY[3]
-            end 
-            if label.cost < -0.000001 then
-                pqueue:enqueue(label)
-            end 
-        end 
-    end 
-    return pqueue
-end 
 
 function Craft:createGraph()
     self.nodes = {[0] = {fid = 0, labels = {Label:new(self.id, 0)}, adj = {}}}

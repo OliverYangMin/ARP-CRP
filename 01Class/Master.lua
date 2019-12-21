@@ -70,62 +70,7 @@ function Master:updateSolution()
         
     end 
 end 
-function Master:SetObjFunction()
-    for f,flight in pairs(flights) do -- no double flight cancel: both cancel or single cancel
-        if flight.impacted then 
-            self.obj[#self.obj+1] = PENALTY[1] - PENALTY[2] - 120 * 25 + (PENALTY[6] - 1.5) * flight.pass
-        else
-            self.obj[#self.obj+1] = PENALTY[1] + PENALTY[6] * flight.pass
-        end 
-    end 
-    ---the cost for every route has been found
-    for i=1,#columns do
-        self.obj[#self.obj+1] = columns[i]:getCost()
-    end 
-    
-    for c,craft in pairs(crafts) do
-        self.obj[#self.obj+1] = craft.start == craft.base and 0 or PENALTY[3]
-    end 
-    SetObjFunction(self.lp, self.obj, 'min')
-end 
 
-function Master:AddConstraint()
-    local coeff, changed = {}, {}
-    for j=1,#self.obj do coeff[j] = 0 end 
-    local function resetCoeff()
-        for i=1,#changed do
-            coeff[changed[i]] = 0
-        end 
-        changed = {}
-    end  
-    ---constraint 1 every flight been execute by only one route or be canceled
-    for i=1,#flights do
-        coeff[i] = 1
-        changed[#changed+1] = i
-        for j=1,#columns do
-            if columns[j]:isInclude(i) then 
-                coeff[#flights+j] = 1
-                changed[#changed+1] = #flights + j
-            end 
-        end 
-        AddConstraint(self.lp, coeff, '=', 1)
-        resetCoeff()
-    end
-    ---constraint 2 every flight been execute by only one route or be canceled
-    local c = 1
-    for cid,craft in pairs(crafts) do
-        for j=1,#columns do 
-            if columns[j].craft == cid then 
-                coeff[#flights+j] = 1
-                changed[#changed+1] = #flights + j
-            end 
-        end 
-        coeff[#flights+#columns+c] = 1 
-        AddConstraint(self.lp, coeff, '=', 1)
-        resetCoeff()
-        c = c + 1
-    end 
-end 
 
 function Master:setDuals()
     self.duals = self.duals or {GetDuals(self.lp)}

@@ -7,10 +7,7 @@ require '01Class.Label'
 require '01Class.Column'
 require '01Class.Evaluator'
 minpq = require '03Algorithms.data.minpq'
-require 'mobdebug'.off()
-
-init()
-
+--require 'mobdebug'.off()
 function Evaluator:getCost(column)
     local cost, time = 0, 0
     local craft = crafts[column.cid]
@@ -35,6 +32,65 @@ function Evaluator:getCost(column)
     end 
     return cost 
 end 
+init()
+
+function Master:SetObjFunction()
+    for f,flight in pairs(flights) do -- no double flight cancel: both cancel or single cancel
+        if flight.impacted then 
+            self.obj[#self.obj+1] = PENALTY[1] - PENALTY[2] - 120 * 25 + (PENALTY[6] - 1.5) * flight.pass
+        else
+            self.obj[#self.obj+1] = PENALTY[1] + PENALTY[6] * flight.pass
+        end 
+    end 
+    ---the cost for every route has been found
+    for i=1,#columns do
+        self.obj[#self.obj+1] = columns[i]:getCost()
+    end 
+    local a = 0
+    for c,craft in pairs(crafts) do
+        self.obj[#self.obj+1] = craft.start == craft.base[#craft.base] and 0 or PENALTY[3]
+        a = a + 1
+    end 
+    SetObjFunction(self.lp, self.obj, 'min')
+end 
+
+function Master:AddConstraint()
+    local coeff, changed = {}, {}
+    for j=1,#self.obj do coeff[j] = 0 end 
+    local function resetCoeff()
+        for i=1,#changed do
+            coeff[changed[i]] = 0
+        end 
+        changed = {}
+    end  
+    ---constraint 1 every flight been execute by only one route or be canceled
+    for i=1,#flights do
+        coeff[i] = 1
+        changed[#changed+1] = i
+        for j=1,#columns do
+            if columns[j]:isInclude(i) then 
+                coeff[#flights+j] = 1
+                changed[#changed+1] = #flights + j
+            end 
+        end 
+        AddConstraint(self.lp, coeff, '=', 1)
+        resetCoeff()
+    end
+    ---constraint 2 every flight been execute by only one route or be canceled
+    local c = 1
+    for cid,craft in pairs(crafts) do
+        for j=1,#columns do 
+            if columns[j].craft == cid then 
+                coeff[#flights+j] = 1
+                changed[#changed+1] = #flights + j
+            end 
+        end 
+        --coeff[#flights+#columns+c] = 1 
+        AddConstraint(self.lp, coeff, '<=', 1)
+        resetCoeff()
+        c = c + 1
+    end 
+end 
 
 
 function Label:extendNode(node1, node2)
@@ -58,9 +114,26 @@ function Label:extendNode(node1, node2)
     table.insert(node2.labels, tag)
 end 
 
+function Craft:convertLabel2Column()
+    local pqueue = minpq.create(function(a, b) return a.cost - b.cost end)
+    for _,node in ipairs(self.nodes) do
+        for _,label in ipairs(node.labels) do
+            label.cost = label.cost - self.dual
+            if flights[label.fid].port2 ~= self.base[#self.base] then
+                label.cost =  label.cost + PENALTY[3]
+            end 
+            if label.cost < -0.000001 then
+                pqueue:enqueue(label)
+            end 
+        end 
+    end 
+    return pqueue
+end 
 --DEBUG = 13
 repeat 
+    
     local master = Master:new()
+    --require 'mobdebug'.on()
     master:WriteLP()
     if #columns > 10000 then
         master:cplexSolve()
@@ -69,9 +142,10 @@ repeat
     end 
     master:updateSolution()
     master:setDuals()
-    if #columns == 13209 then
-    require 'mobdebug'.on()
-    end
+--    if #columns >= 4298 then
+--        
+--        a = 1
+--    end
     local not_opt = master:solveSubproblem()
     clearLabels()
  
@@ -79,11 +153,11 @@ repeat
     print(#columns)
 until not not_opt
 
-local master = Master:new()
-master:WriteLP()
-master:integerSolve()
-master:updateSolution()
-print(master.objective)
+--local master = Master:new()
+--master:WriteLP()
+--master:integerSolve()
+--master:updateSolution()
+--print(master.objective)
 
 
 
