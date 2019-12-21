@@ -51,34 +51,14 @@ function Evaluator:getCraftSwapCost(flight, craft)
     return cost 
 end 
 
-function Evaluator:getCost(column)
-    local cost, time = 0, 0
-    local craft = crafts[column.craft]
-    for i=#column-1,1,-1 do
-        local flight = flights[column[i]]
-        local delay = math.max(0, time - flight.time1)
-        
-        ---航班延误：延误班次=2，延误时间=5，乘客延误时间=7 ---换机:机型更换=4, 乘客减少=6
-        cost = cost + self:getDelayCost(flight, delay, craft) + self:getCraftSwapCost(flight, craft)
-      
-        --- 联程=10
---        if flight.double then
---            if i == #column or column[i+1] ~= flight.double then
---                cost = cost + PENALTY[10]
---            end 
---        end 
-        
-        ---驻地=3
---        if flight.date < flights[self[i+1]].date then
---            if flight.port2 ~= craft.base[flight.date] then
---                cost = cost + PENALTY[3]
---            end 
---        end 
-        time = flight.time2 + delay + ports[flight.port2][craft.tp]
-    end
-    
-    if flights[column[1]].port2 ~= craft.base then
-        return cost + PENALTY[3]
+function Evaluator:getBaseChangeCost(flight1, flight2, base)
+    local cost = 0
+    for j=1,flight2.date - flight1.date do
+        if flight1.port2 ~= base[flight1.date+j-1] then
+            cost = cost + PENALTY[3]
+        end
     end 
     return cost 
 end 
+
+

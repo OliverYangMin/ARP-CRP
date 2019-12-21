@@ -3,7 +3,7 @@ Column.__index = Column
 
 function Column:new(seq, craft_id)
     local self = seq
-    self.craft = craft_id
+    self.cid = craft_id
     self.cost = evaluator:getCost(self)
     setmetatable(self, Column)
     return self
@@ -35,6 +35,18 @@ function Column:isInclude(flight_id)
     end    
     return false
 end 
+
+--function Column:isInSlot(slot)
+--    if not self.slot then
+--        for i=1,#self do
+            
+--        end 
+--    else
+--        return self.slot[]
+--    end 
+--end 
+
+
 
 function Column:copy()
     return DeepCopy(self)

@@ -7,66 +7,74 @@ require '01Class.Label'
 require '01Class.Column'
 require '01Class.Evaluator'
 minpq = require '03Algorithms.data.minpq'
---require 'mobdebug'.off()
+require 'mobdebug'.off()
 
-
-function Craft:createGraph()
-    self.nodes = {[0] = {fid = 0, labels = {Label:new(self.id, 0)}, adj = {}}}
-    for f,flight in ipairs(flights) do
-        if flight:isOperable(self) then
-            self.nodes[#self.nodes + 1] = {fid = f, labels = {}, adj = {}, indegree = 0}
-            if flight.port1 == self.start then
-                table.insert(self.nodes[0].adj, #self.nodes)
-            end 
-        end 
-    end
-    self:topoSort(self:addEdgesAdjIndegree())
-end 
 init()
 
-
-function Craft:labelSetting()
-    for i=0,#self.order do
-        local node = self.nodes[self.order[i]]
-        for _,label in ipairs(node.labels) do
-            for _,node_id in ipairs(node.adj) do 
-              
-                label:extendNode(node, self.nodes[node_id])  
-            end 
-        end
+function Evaluator:getCost(column)
+    local cost, time = 0, 0
+    local craft = crafts[column.cid]
+    for i=#column-1,1,-1 do
+        local flight = flights[column[i]]
+        local delay = math.max(0, time - flight.time1)
+        
+        ---航班延误：延误班次=2，延误时间=5，乘客延误时间=7 ---换机:机型更换=4, 乘客减少=6 驻地=3
+        cost = cost + self:getDelayCost(flight, delay, craft) + self:getCraftSwapCost(flight, craft)
+        if i < #column - 1 then cost = cost + self:getBaseChangeCost(flights[column[i+1]], flight, crafts[column.cid].base) end  
+        --- 联程=10
+--        if flight.double then
+--            if i == #column or column[i+1] ~= flight.double then
+--                cost = cost + PENALTY[10]
+--            end 
+--        end 
+        time = flight.time2 + delay + ports[flight.port2][craft.tp]
+    end
+    
+    if flights[column[1]].port2 ~= craft.base[#craft.base] then
+        return cost + PENALTY[3]
     end 
+    return cost 
 end 
+
+
 function Label:extendNode(node1, node2)
-    local flight1 = node1.fid == 0 and {port2 = crafts[self.cid].start, time2 = crafts[self.cid].stime} or flights[node1.fid]
+    local flight1 = node1.fid == 0 and {port2 = crafts[self.cid].start, time2 = crafts[self.cid].stime, date = 1} or flights[node1.fid]
     local flight2 = flights[node2.fid]
-    if not flight2 then
-        print(self.cid, ' ', node2.fid)
-    end 
     local tag, turnaround_time = Label:new(self.cid, node2.fid), ports[flight1.port2][crafts[self.cid].tp]
     tag.delay = math.max(0, flight1.time2 + self.delay + turnaround_time - flight2.time1)            
     if not flight2:isDelayFeasible(tag.delay) then return end 
-    
-    tag.cost = self.cost + evaluator:getDelayCost(flight2, tag.delay, crafts[self.cid]) + evaluator:getCraftSwapCost(flight2, crafts[self.cid]) - flight2.dual     
-    
+    tag.cost = self.cost + evaluator:getDelayCost(flight2, tag.delay, crafts[self.cid]) + evaluator:getCraftSwapCost(flight2, crafts[self.cid]) + evaluator:getBaseChangeCost(flight1, flight2, crafts[self.cid].base) - flight2.dual     
+   
     for _,label in ipairs(node2.labels) do
         if label:isDominate(tag) then 
             return 
         end 
     end 
+    
     self:dominateLabelSet(node2.labels)
+    
     tag.pre = self
+    
     table.insert(node2.labels, tag)
 end 
+
+--DEBUG = 13
 repeat 
     local master = Master:new()
     master:WriteLP()
-    master:lpSolve()
+    if #columns > 10000 then
+        master:cplexSolve()
+    else
+        master:lpSolve()
+    end 
     master:updateSolution()
     master:setDuals()
-     
+    if #columns == 13209 then
+    require 'mobdebug'.on()
+    end
     local not_opt = master:solveSubproblem()
     clearLabels()
-    
+ 
     print(master.objective)
     print(#columns)
 until not not_opt

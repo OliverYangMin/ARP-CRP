@@ -22,9 +22,6 @@ function initColumns()
                 columns[#columns+1] = Column:new({i, 0}, c)
             end 
         end
---        if not craft.dis then
---            columns[#columns+1] = getRotation(craft)
---        end 
     end 
 end 
 
@@ -90,9 +87,12 @@ function getData()
     for c,craft in pairs(crafts) do
         local rotation = getRotation(c)
         if #rotation > 0 then
-            
-            
-            craft.base = rotation[#rotation].port2
+            for i=1,#rotation-1 do
+                for j=1,rotation[i+1].date-rotation[i].date do
+                    table.insert(craft.base, rotation[i].port2)
+                end 
+            end 
+            table.insert(craft.base, rotation[#rotation].port2)
             craft.start = rotation[1].port1
         else
             crafts[c] = nil

@@ -15,7 +15,20 @@ function Master:solveSubproblem()
             not_opt = true
             for i=1,5 do
                 local route = routes:delMin()
-                columns[#columns+1] = route:to_column()
+                local column = route:to_column()
+--                for j=1,#columns do
+--                    local k = 1
+--                    while k <= #columns[j] do
+--                        if not (column[k] and columns[j][k] == column[k]) then
+--                            break
+--                        end 
+--                        k = k + 1
+--                    end 
+--                    if k > #columns then
+--                        error('there two same column')
+--                    end 
+--                end 
+                columns[#columns+1] = column
                 if routes:isEmpty() then break end 
             end 
         end 
